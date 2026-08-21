@@ -1,56 +1,51 @@
 # IntentUI ⚡
 
-> **The Intent-Driven Generative UI Toolkit for Vue 3 & Nuxt**
+> **The Intent-Driven Generative UI Toolkit for Vue 3 & Nuxt**  
 > *Transform AI streams, JSON schemas, and user intentions into rich, native, interactive Vue components.*
 
 [![npm version](https://img.shields.io/npm/v/@intentui/vue?color=0ea5e9&label=npm)](https://www.npmjs.com/package/@intentui/vue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883.svg)](https://vuejs.org/)
+[![Nuxt 3 Ready](https://img.shields.io/badge/Nuxt-3.x-00DC82.svg)](https://nuxt.com/)
+[![Vite](https://img.shields.io/badge/Vite-6.x-646CFF.svg)](https://vitejs.dev/)
+
+```
+Tags: vue3 · generative-ui · nuxt · ai-sdk · llm-ui · function-calling · tool-calling · structured-outputs · zod · openai · gemini · claude · ollama · agentic-ui · zero-cls
+```
 
 ---
 
-## Why IntentUI?
+## 🎯 The Goal of IntentUI
 
-Most AI integrations today render a wall of text or static markdown. Meanwhile, the tooling for **Generative UI** — where LLMs produce rich, interactive interfaces on-the-fly — is almost exclusively built for React (Vercel AI SDK, CopilotKit).
+In today's AI landscape, most Large Language Model integrations are limited to a **"wall of text"** or static markdown. When an AI needs to show sales data, booking confirmations, or multi-step forms, writing plain text or raw markdown tables creates a poor user experience.
 
-**IntentUI fills the gap for the Vue & Nuxt ecosystem.**
+Meanwhile, the existing tooling for **Generative UI** (rendering dynamic, interactive components from AI) has been almost exclusively built around React and Next.js Server Components.
 
-The AI doesn't inject arbitrary HTML or JavaScript. Instead, it selects and populates **your own pre-registered Vue components**, validated with schemas, fully consistent with your design system, and rendered progressively during streaming — with zero layout shift.
+**IntentUI bridges this gap for the entire Vue 3 and Nuxt ecosystem.**
 
----
+### The Core Philosophy: *Safe by Design, Native by Default*
 
-## Key Features
-
-| Feature | Description |
-|---|---|
-| 🧩 **Component Registry** | Register your own Vue SFCs with Zod / Standard Schema validation. The AI picks and populates — never invents. |
-| 🔄 **Streaming & Zero-CLS** | Partial JSON streaming parser updates props reactively in real-time with smooth skeleton transitions. |
-| 🔧 **Auto Tool Definitions** | Automatically converts your component registry into tool/function calling specs for OpenAI, Gemini, Anthropic. |
-| 🔁 **Agentic Round-Trip** | User actions inside rendered components (`@action`, `@submit`) feed back into the LLM conversation loop. |
-| 🛡️ **Type-Safe & Secure** | Full TypeScript, schema-validated props, no raw HTML injection. |
-| 💚 **Vue-First & Nuxt-Ready** | Composition API, `<script setup>`, Vite-native. Built for Vue 3 from the ground up. |
+1. **No Arbitrary Code Injection**: The LLM never writes raw HTML, CSS, or unsafe JavaScript. Instead, it selects and populates **your own pre-registered Vue Single File Components (SFCs)** from your design system.
+2. **Schema-Validated & Type-Safe**: Every component is backed by a strict schema (Zod / Standard Schema). Props are validated before and during rendering.
+3. **Progressive Streaming (Zero-CLS)**: As tokens stream from the LLM, IntentUI's *Partial JSON Parser* decodes incomplete data in real-time, displaying smooth shimmer skeletons and transitioning seamlessly into the final component without layout shifts.
+4. **Bidirectional Agentic Loop**: User interactions (button clicks, form submits, selection changes) emit semantic events that automatically flow back to the LLM as tool results, enabling true multi-turn autonomous workflows.
 
 ---
 
-## How It Works
-
-1. **You register** your design system components (charts, tables, forms, cards) with a schema describing their props.
-2. **The LLM receives** these schemas as tool definitions and decides which component to render, with which data.
-3. **IntentUI validates** the incoming payload against the schema, resolves the component, and **mounts it progressively** during streaming — showing skeleton placeholders until complete.
-4. **User interactions** inside rendered components (clicks, form submits, selections) are captured and sent back to the LLM as tool responses, continuing the agentic conversation.
+## 💡 How It Works (The Mental Model)
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│                      User Input                        │
-│        "Show me last month's sales data"               │
+│                      User Prompt                       │
+│        "Show me last month's sales breakdown"          │
 └───────────────────────────┬────────────────────────────┘
                             │
                             ▼
 ┌────────────────────────────────────────────────────────┐
 │                   LLM / Backend API                    │
-│    Tool Call with Structured Output / JSON Schema      │
-│    { "tool": "render_sales_chart", "props": { ... } }  │
+│      AI executes Tool Call with Structured Data        │
+│   { "tool": "render_sales_chart", "props": { ... } }   │
 └───────────────────────────┬────────────────────────────┘
                             │
                             ▼
@@ -59,11 +54,11 @@ The AI doesn't inject arbitrary HTML or JavaScript. Instead, it selects and popu
 │                                                        │
 │  ┌───────────────────────┐  ┌───────────────────────┐  │
 │  │ Component Registry    │  │ Partial JSON Parser   │  │
-│  │ (Schema + Type-Safe)  │  │ (Stream Chunk Decoder)│  │
+│  │ (Zod Schema Validate) │  │ (Real-Time Streaming) │  │
 │  └───────────────────────┘  └───────────────────────┘  │
 │  ┌───────────────────────┐  ┌───────────────────────┐  │
-│  │ Event & Action Bridge │  │ Fallback / Skeletons  │  │
-│  │ (Round-Trip Feedback) │  │ (Zero-CLS Transition) │  │
+│  │ Event & Action Bridge │  │ Skeletons & Fallbacks │  │
+│  │ (Agentic Round-Trip)  │  │ (Zero Layout Shift)   │  │
 │  └───────────────────────┘  └───────────────────────┘  │
 └───────────────────────────┬──────────────▲─────────────┘
                             │              │
@@ -75,80 +70,46 @@ The AI doesn't inject arbitrary HTML or JavaScript. Instead, it selects and popu
 └────────────────────────────────────────────────────────┘
 ```
 
+1. **You define a catalog** of your existing Vue components with a Zod schema describing the expected props.
+2. **IntentUI automatically converts** your catalog into standard LLM Tool / Function Calling definitions (`getToolsDefinition()`).
+3. **The user asks a question** — the AI chooses the most appropriate component and streams back the structured payload.
+4. **`<IntentRenderer>` mounts the component** progressively in your Vue application.
+5. **The user interacts** with the rendered component, sending feedback back to the AI to continue the conversation.
+
 ---
 
-## Installation
+## 🌟 Real-World Use Cases
+
+| Scenario | What the AI Renders | Interactive Action |
+|---|---|---|
+| 📊 **Analytics & BI** | Interactive bar/line charts, KPI metric cards, filterable data tables | User clicks a metric bar → AI filters the view or explains anomalies |
+| 🏨 **Booking & Travel** | Hotel cards, seat selection maps, date/time pickers | User clicks "Confirm" → AI generates confirmation and ticket PDF |
+| 🛍️ **E-Commerce** | Product comparison cards, interactive carts, shipping forms | User selects a size/color → AI updates cart summary |
+| 📝 **Multi-Step Wizards** | Dynamic step-by-step form wizards | User submits step 1 → AI validates and mounts step 2 |
+
+---
+
+## 🚀 Installation
 
 ```bash
 # With pnpm (recommended)
-pnpm add @intentui/vue
+pnpm add @intentui/vue @intentui/core zod
 
 # With npm
-npm install @intentui/vue
+npm install @intentui/vue @intentui/core zod
 
 # With yarn
-yarn add @intentui/vue
+yarn add @intentui/vue @intentui/core zod
 ```
 
 ---
 
-## Quick Start
+## ⚡ Quick Start
 
-**1. Register your components with schemas**
+### 1. Register your components with schemas
 
 ```typescript
 // intent.config.ts
-import { createIntentUI } from '@intentui/vue';
-import { z } from 'zod';
-import SalesChart from './components/SalesChart.vue';
-
-export const intentUI = createIntentUI({
-  components: {
-    SalesChart: {
-      component: SalesChart,
-      description: 'Interactive sales chart with time filters',
-      schema: z.object({
-        title: z.string(),
-        timeframe: z.enum(['daily', 'weekly', 'monthly']),
-        metrics: z.array(z.object({ label: z.string(), value: z.number() })),
-      }),
-    },
-  },
-  fallback: () => import('./components/DefaultSkeleton.vue'),
-});
-```
-
-**2. Render AI-generated components in your template**
-
-```vue
-<template>
-  <IntentRenderer :stream="aiStream" @action="handleComponentAction">
-    <template #loading="{ componentName }">
-      <div class="skeleton">Loading {{ componentName }}...</div>
-    </template>
-  </IntentRenderer>
-</template>
-
-<script setup lang="ts">
-import { useIntentChat } from '@intentui/vue';
-
-const { aiStream, sendPrompt, handleComponentAction } = useIntentChat({
-  api: '/api/generate-ui',
-});
-</script>
-```
-
-That's it. The LLM calls the tool, IntentUI renders the component. 🚀
-
----
-
-## API Reference
-
-### `createIntentUI(options)`
-
-Creates and configures the IntentUI instance with your component registry.
-
-```typescript
 import { createIntentUI } from '@intentui/vue';
 import { z } from 'zod';
 import SalesChart from './components/SalesChart.vue';
@@ -158,199 +119,152 @@ export const intentUI = createIntentUI({
   components: {
     SalesChart: {
       component: SalesChart,
-      description: 'Interactive sales chart with time range filters',
+      description: 'Displays an interactive sales chart with timeframe filters',
       schema: z.object({
-        title: z.string(),
+        title: z.string().describe('Chart title'),
         timeframe: z.enum(['daily', 'weekly', 'monthly']),
         metrics: z.array(z.object({ label: z.string(), value: z.number() })),
       }),
     },
     BookingCard: {
       component: BookingCard,
-      description: 'Interactive card for confirming or editing a booking',
+      description: 'Card for hotel reservation details and confirmation',
       schema: z.object({
         bookingId: z.string(),
         hotelName: z.string(),
-        dates: z.string(),
         price: z.number(),
       }),
     },
   },
-  fallback: () => import('./components/DefaultSkeleton.vue'),
 });
 
-// Auto-generate tool definitions for your LLM backend
+// Pass this to your LLM API request (OpenAI, Gemini, Claude, Ollama)
 export const toolsDefinition = intentUI.getToolsDefinition();
 ```
 
----
-
-### `<IntentRenderer>`
-
-The core rendering component. Receives a stream, resolves components, and handles the full lifecycle.
+### 2. Render AI-generated components in your Vue template
 
 ```vue
 <template>
-  <IntentRenderer 
-    :stream="aiStream" 
-    @action="handleComponentAction"
-  >
-    <!-- Custom loading state with partial props -->
-    <template #loading="{ componentName, partialProps }">
-      <div class="skeleton-card">
-        Streaming {{ componentName }}...
-      </div>
-    </template>
+  <div class="chat-container">
+    <!-- Renders text, streaming skeletons, and interactive native components -->
+    <IntentRenderer
+      :stream="aiStream"
+      :registry="intentUI.registry"
+      :bridge="intentUI.bridge"
+      @action="handleAction"
+    >
+      <!-- Optional: Custom loading skeleton -->
+      <template #loading="{ componentName }">
+        <div class="skeleton">Generating {{ componentName }}...</div>
+      </template>
 
-    <!-- Schema validation error fallback -->
-    <template #error="{ error, rawPayload }">
-      <div class="error-notice">Cannot render: {{ error.message }}</div>
-    </template>
-  </IntentRenderer>
+      <!-- Optional: Custom error fallback -->
+      <template #error="{ error }">
+        <div class="error-badge">Could not render: {{ error.message }}</div>
+      </template>
+    </IntentRenderer>
+  </div>
 </template>
-```
 
-| Prop / Event | Type | Description |
-|---|---|---|
-| `:stream` | `Ref<IntentStream>` | The reactive AI stream from `useIntentChat` |
-| `@action` | `(event, payload) => void` | Emitted when the user interacts with a rendered component |
-| `#loading` | Slot `{ componentName, partialProps }` | Custom skeleton during streaming |
-| `#error` | Slot `{ error, rawPayload }` | Fallback when schema validation fails |
+<script setup lang="ts">
+import { IntentRenderer, useIntentChat } from '@intentui/vue';
+import { intentUI } from './intent.config';
 
----
-
-### `useIntentChat(options)`
-
-Composable for managing the AI chat loop and generative UI streaming.
-
-```typescript
-const { aiStream, sendPrompt, handleComponentAction } = useIntentChat({
+const { aiStream, sendPrompt } = useIntentChat({
   api: '/api/generate-ui',
-  onActionComplete: async (actionResult) => {
-    // Action result is automatically sent back to the LLM
-    console.log('User action completed:', actionResult);
-  }
+  intentUI,
 });
+
+function handleAction(componentName: string, event: string, data: unknown) {
+  console.log(`User clicked ${event} on ${componentName}:`, data);
+}
+</script>
 ```
 
 ---
 
-### `useIntentUI(options)`
+## 🤖 Supported AI Providers & Ecosystem
 
-Lower-level composable for canvas-style and custom intent-driven interfaces.
+IntentUI is designed to work with any modern LLM supporting Tool Calling / Function Calling:
 
-```typescript
-const { 
-  renderComponent, 
-  isStreaming, 
-  currentPayload, 
-  emitAction 
-} = useIntentUI({
-  onAction: async (eventName, payload) => {
-    await sendToolResponse({
-      tool: currentPayload.value.name,
-      event: eventName,
-      data: payload,
-    });
-  }
-});
-```
+- 🟢 **OpenAI**: `gpt-4o`, `gpt-4o-mini`, `o3-mini`
+- 🔵 **Google Gemini**: `gemini-2.0-flash`, `gemini-1.5-pro`
+- 🟣 **Anthropic Claude**: `claude-3-5-sonnet`, `claude-3-haiku`
+- 🦙 **Ollama & Local LLMs**: `llama3`, `deepseek-r1`, `mistral`, `qwen`
+- ⚡ **OpenAI-Compatible APIs**: Groq, Together AI, OpenRouter, Mistral API
 
 ---
 
-## Comparison
+## 📊 Comparison
 
-| | **IntentUI** | Vercel AI SDK (RSC) | CopilotKit |
+| Feature | **IntentUI** | Vercel AI SDK (RSC) | CopilotKit |
 |---|---|---|---|
-| **Framework** | Vue 3 / Nuxt | React / Next.js | React |
-| **Rendering** | Pre-registered SFCs | Server Components | React Components |
-| **Schema Validation** | Zod / Standard Schema | Zod | Zod |
-| **Streaming** | Partial JSON + Skeletons | RSC Streaming | Streaming |
-| **Security** | Allowlist only | Server-rendered | Allowlist |
-| **Tool Calling** | Auto-generated from registry | Manual | Manual |
-| **Agentic Loop** | Built-in round-trip | Manual | Built-in |
+| **Primary Framework** | **Vue 3 & Nuxt 3** | React / Next.js | React |
+| **Component Architecture** | Native Vue SFCs | Server Components | React Components |
+| **Type Safety & Schemas** | Zod / Standard Schema | Zod | Zod / JSON Schema |
+| **Streaming Engine** | Partial JSON Streaming | RSC Streaming | SSE Chunk Streaming |
+| **Tool Calling Export** | Automatic (`getToolsDefinition`) | Manual | Manual |
+| **Round-Trip Agentic Loop** | Built-in Action Bridge | Manual State Handling | Built-in Copilot Context |
+| **Runtime Dependencies** | Zero framework deps in core | React / Node specific | React specific |
 
 ---
 
-## Monorepo Structure
+## 📦 Monorepo Architecture
 
 ```
 intentui/
 ├── packages/
-│   ├── core/                  # Framework-agnostic parsing, streaming & schema engine
+│   ├── core/                  # Zero-dependency engine: streaming parser, registry, bridge
 │   │   ├── src/
-│   │   │   ├── parser.ts      # Partial JSON streaming parser & chunk decoder
-│   │   │   ├── registry.ts    # Component registry, schema validation & tools generator
-│   │   │   ├── bridge.ts      # Event & action bridge for agentic feedback loop
+│   │   │   ├── parser.ts      # Tolerant streaming JSON decoder
+│   │   │   ├── registry.ts    # Component catalog, schema validator, tool defs generator
+│   │   │   ├── bridge.ts      # Action routing and agentic loop history
+│   │   │   ├── providers/     # Lightweight HTTP/SSE adapters (OpenAI, Gemini, Anthropic, Ollama)
 │   │   │   └── index.ts
 │   │   └── package.json
 │   │
-│   ├── vue/                   # Vue 3 & Nuxt bindings
+│   ├── vue/                   # Vue 3 & Nuxt native bindings
 │   │   ├── src/
-│   │   │   ├── IntentRenderer.vue  # Dynamic reactive rendering component
-│   │   │   ├── useIntentChat.ts    # Composable for chat + Generative UI
-│   │   │   ├── useIntentUI.ts      # Composable for canvas intent-driven UIs
+│   │   │   ├── IntentRenderer.ts   # Dynamic reactive component renderer
+│   │   │   ├── useIntentChat.ts    # Chat lifecycle & generative streaming composable
+│   │   │   ├── useIntentUI.ts      # Canvas / custom dashboard composable
+│   │   │   ├── plugin.ts           # createIntentUI() factory
 │   │   │   └── index.ts
 │   │   └── package.json
 │   │
 │   ├── nuxt/                  # Nuxt 3 module with auto-import & SSR streaming
-│   │   └── src/module.ts
-│   │
-│   └── ui-kit/                # Optional prebuilt components (Charts, Tables, Cards)
+│   └── ui-kit/                # Pre-built headless and styled components
 │
-├── playground/                # Interactive Vite demo (OpenAI, Gemini, Ollama examples)
-├── docs/                      # VitePress documentation
-├── package.json               # pnpm workspaces monorepo
+├── playground/                # Interactive Vite demo with mock & live providers
+├── DEVELOPMENT_PLAN.md        # Technical architecture & implementation plan
+├── package.json               # pnpm workspaces root
 └── README.md
 ```
 
 ---
 
-## Roadmap
+## 🤝 Contributing
 
-### Phase 1: Core Engine & Dynamic Renderer (MVP)
-- [ ] Partial JSON streaming parser implementation
-- [ ] Component registry with Zod / Standard Schema validation
-- [ ] Auto tool/function calling definition generator (`getToolsDefinition()`)
-- [ ] `<IntentRenderer>` with dynamic `component :is` and skeleton slots
-- [ ] Bidirectional event handling (`@action` / `@submit` from generated components)
-
-### Phase 2: Composable & Provider Integration
-- [ ] `useIntentChat` composable with multi-provider support (OpenAI, Gemini, Anthropic, Ollama)
-- [ ] Agentic round-trip loop (Tool Call → Render → User Action → Tool Response)
-- [ ] **Model Context Protocol (MCP)** and advanced tool calling support
-- [ ] History management and reactive component state persistence
-
-### Phase 3: Developer Experience & Documentation
-- [ ] Interactive playground with live examples (E-commerce, Analytics Dashboard, Form Wizard)
-- [ ] Official VitePress documentation (`intentui.dev`)
-- [ ] Full test suite with Vitest — 100% TypeScript
-
-### Phase 4: Nuxt 3 Module & UI Kit
-- [ ] `@intentui/nuxt` zero-config module with auto-import and server-side streaming (SSR/SSG)
-- [ ] Optional headless or styled UI kit with dark-mode components
-
----
-
-## Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to get started.
+Contributions are welcome! Please check out [DEVELOPMENT_PLAN.md](./DEVELOPMENT_PLAN.md) for architecture guidelines.
 
 ```bash
-# Clone and install
-git clone https://github.com/user/intentui.git
+# Clone the repository
+git clone https://github.com/SalvatoreCervone/intentui.git
 cd intentui
+
+# Install dependencies
 pnpm install
 
-# Run the playground
-pnpm dev
-
-# Run tests
+# Run all tests
 pnpm test
+
+# Launch the interactive playground
+pnpm dev
 ```
 
 ---
 
-## License
+## 📄 License
 
 [MIT](./LICENSE) © IntentUI Contributors

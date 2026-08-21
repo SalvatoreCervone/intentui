@@ -817,45 +817,36 @@ pnpm changeset publish
 
 ---
 
-## Implementation Order (Recommended)
+## Implementation Order & Progress
 
-The optimal order minimizes blocked work and enables testing at each step:
-
-```
-Step 1: Monorepo scaffolding (root configs, pnpm workspace, tsconfig)
-  │
-Step 2: @intentui/core — types.ts (shared types, zero deps)
-  │
-Step 3: @intentui/core — parser.ts + tests
-  │      (can be tested independently with string fixtures)
-  │
-Step 4: @intentui/core — registry.ts + tests
-  │      (depends on types.ts, testable with mock components)
-  │
-Step 5: @intentui/core — bridge.ts + tests
-  │      (depends on types.ts, simple event emitter pattern)
-  │
-Step 6: @intentui/core — index.ts (wire exports, verify build)
-  │
-Step 7: @intentui/vue — plugin.ts (createIntentUI factory)
-  │      (depends on core being built/stubbed)
-  │
-Step 8: @intentui/vue — IntentRenderer.vue + component tests
-  │      (depends on plugin.ts, core registry)
-  │
-Step 9: @intentui/vue — useIntentChat.ts + tests
-  │      (depends on core parser, bridge)
-  │
-Step 10: @intentui/vue — useIntentUI.ts + tests
-  │
-Step 11: @intentui/vue — index.ts (wire exports, verify build)
-  │
-Step 12: Playground — mock stream + demo components + App.vue
-  │       (full end-to-end validation)
-  │
-Step 13: README verification — ensure all code examples actually work
-```
+### ✅ Phase 1: Core Engine & Dynamic Renderer (Completed)
+- [x] Step 1: Monorepo scaffolding (root configs, pnpm workspace, tsconfig, vitest)
+- [x] Step 2: `@intentui/core` — `types.ts` (shared types, zero deps)
+- [x] Step 3: `@intentui/core` — `parser.ts` + 9 unit tests (partial JSON streaming)
+- [x] Step 4: `@intentui/core` — `registry.ts` + 14 unit tests (Zod schema & tool defs)
+- [x] Step 5: `@intentui/core` — `bridge.ts` + 7 unit tests (event bridge & history)
+- [x] Step 6: `@intentui/core` — `index.ts` & build verification (dual ESM/CJS + `.d.ts`)
+- [x] Step 7: `@intentui/vue` — `plugin.ts` (`createIntentUI` factory)
+- [x] Step 8: `@intentui/vue` — `IntentRenderer.ts` + 9 component tests
+- [x] Step 9: `@intentui/vue` — `useIntentChat.ts` (chat composable)
+- [x] Step 10: `@intentui/vue` — `useIntentUI.ts` (canvas composable)
+- [x] Step 11: `@intentui/vue` — `index.ts` & build verification (dual ESM/CJS + `.d.ts`)
+- [x] Step 12: Playground — mock stream + SalesChart & BookingCard demo + App.vue
+- [x] Step 13: Browser verification — 100% passed (39 tests + live browser interaction)
 
 ---
 
-> **Next action**: Begin at Step 1 — scaffold the monorepo.
+### ⏳ Phase 2: Composable & Provider Integration (In Progress)
+- [ ] Step 14: Provider interface & protocol (`packages/core/src/providers/types.ts`)
+- [ ] Step 15: OpenAI Provider (`packages/core/src/providers/openai.ts`) + unit tests
+- [ ] Step 16: Gemini Provider (`packages/core/src/providers/gemini.ts`) + unit tests
+- [ ] Step 17: Anthropic Provider (`packages/core/src/providers/anthropic.ts`) + unit tests
+- [ ] Step 18: Ollama Provider (`packages/core/src/providers/ollama.ts`) + unit tests
+- [ ] Step 19: Provider exports and barrel in `@intentui/core`
+- [ ] Step 20: Agentic round-trip loop in `useIntentChat` & history persistence
+- [ ] Step 21: Playground multi-provider UI (mock / OpenAI / Gemini / Anthropic / Ollama)
+- [ ] Step 22: Vitest provider tests & end-to-end browser validation
+
+---
+
+> **Next action**: Execute Phase 2 starting with Step 14 (Provider abstraction).
