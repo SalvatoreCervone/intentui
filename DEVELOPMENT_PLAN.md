@@ -897,4 +897,21 @@ pnpm changeset publish
 
 ---
 
-> **Next action**: Execute Phase 2 starting with Step 14 (Provider abstraction).
+### ⏳ Phase 3: Developer Experience, Documentation & UI Kit
+- [ ] Step 24: Headless Generative UI Kit (`packages/ui-kit` / templates: `DataTable`, `MetricCard`, `FormWizard`, `ConfirmationCard`)
+- [ ] Step 25: Multi-scenario Playground expansions (E-commerce wizard, Data Table explorer)
+- [ ] Step 26: VitePress Documentation Site (`docs/`) with Quickstart, Architecture, API Reference, and interactive demos
+
+---
+
+### ✅ Phase 4: Nuxt 3 Module (`@intentui/nuxt`) (Completed)
+- [x] Step 27: Package scaffolding (`packages/nuxt/package.json`, `tsconfig.json`, `build.config.ts`)
+- [x] Step 28: Nuxt module definition (`packages/nuxt/src/module.ts`) with `@nuxt/kit`
+- [x] Step 29: Auto-imports configuration (`IntentRenderer`, `useIntentChat`, `useIntentUI`, `defineIntent`, `createIntentUI`, `autoDiscoverComponents`)
+- [x] Step 30: Nuxt runtimeConfig injection and server route config
+- [x] Step 31: Nitro server handler (`/api/intent-chat`) for secure server-side LLM streaming and API key management
+- [x] Step 32: Nuxt module test suite & dual ESM/CJS build verification
+
+---
+
+> **Next action**: Implement Phase 4 starting with Step 27 (Scaffold `@intentui/nuxt` module).
