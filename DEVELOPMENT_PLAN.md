@@ -897,9 +897,9 @@ pnpm changeset publish
 
 ---
 
-### ⏳ Phase 3: Developer Experience, Documentation & UI Kit
-- [ ] Step 24: Headless Generative UI Kit (`packages/ui-kit` / templates: `DataTable`, `MetricCard`, `FormWizard`, `ConfirmationCard`)
-- [ ] Step 25: Multi-scenario Playground expansions (E-commerce wizard, Data Table explorer)
+### ✅ Phase 3: Developer Experience, Documentation & UI Kit
+- [x] Step 24: Headless Generative UI Kit (`packages/ui-kit`: `MetricCard`, `DataTable`, `FormWizard`, `ConfirmationCard`) + 7 unit tests
+- [x] Step 25: Multi-scenario Playground expansions (KPI cards, Data Table explorer, Dynamic Form Wizard, Transaction Confirmation)
 - [ ] Step 26: VitePress Documentation Site (`docs/`) with Quickstart, Architecture, API Reference, and interactive demos
 
 ---

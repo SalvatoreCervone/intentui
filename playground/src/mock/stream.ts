@@ -22,10 +22,88 @@ const scenarios: Record<string, MockScenario> = {
         title: 'Q1 2026 Revenue',
         timeframe: 'monthly',
         metrics: [
-          { label: 'January', value: 45200 },
-          { label: 'February', value: 52800 },
-          { label: 'March', value: 61400 },
+          { label: 'Gennaio', value: 45200 },
+          { label: 'Febbraio', value: 52800 },
+          { label: 'Marzo', value: 61400 },
         ],
+      },
+    },
+  },
+  metricCard: {
+    name: 'KPI Metric Card',
+    description: 'Statistiche e indicatori di crescita',
+    payload: {
+      component: 'MetricCard',
+      props: {
+        title: 'Fatturato Ricorrente (MRR)',
+        value: 78500,
+        unit: '€',
+        change: 18.4,
+        trend: 'up',
+        timeframe: 'vs mese scorso',
+        description: 'Crescita trainata dai nuovi abbonamenti Enterprise',
+      },
+    },
+  },
+  dataTable: {
+    name: 'Interactive Data Table',
+    description: 'Tabella ordinabile con ricerca e filtri',
+    payload: {
+      component: 'DataTable',
+      props: {
+        title: 'Transazioni Recenti',
+        pageSize: 4,
+        searchable: true,
+        columns: [
+          { key: 'customer', label: 'Cliente' },
+          { key: 'plan', label: 'Piano' },
+          { key: 'amount', label: 'Importo', type: 'currency' },
+          { key: 'status', label: 'Stato', type: 'badge' },
+        ],
+        rows: [
+          { customer: 'Acme Corp', plan: 'Enterprise', amount: 4800, status: 'Pagato' },
+          { customer: 'TechStart Ltd', plan: 'Pro', amount: 1200, status: 'In attesa' },
+          { customer: 'Studio Rossi', plan: 'Starter', amount: 290, status: 'Pagato' },
+          { customer: 'Global Logix', plan: 'Enterprise', amount: 7500, status: 'Pagato' },
+          { customer: 'Apex Digital', plan: 'Pro', amount: 1200, status: 'Annullato' },
+        ],
+      },
+    },
+  },
+  formWizard: {
+    name: 'Dynamic Form Wizard',
+    description: 'Form generato dall AI per input utente',
+    payload: {
+      component: 'FormWizard',
+      props: {
+        title: 'Crea Nuovo Cluster Cloud',
+        description: 'Compila i dettagli per avviare il deployment',
+        submitLabel: 'Avvia Provisioning ⚡',
+        fields: [
+          { name: 'clusterName', label: 'Nome Cluster', type: 'text', placeholder: 'es. prod-eu-west-1', required: true },
+          { name: 'region', label: 'Regione Cloud', type: 'select', options: ['eu-central-1 (Frankfurt)', 'eu-west-1 (Ireland)', 'us-east-1 (N. Virginia)'], required: true },
+          { name: 'nodes', label: 'Numero di Nodi', type: 'number', defaultValue: 3 },
+          { name: 'enableAutoscaling', label: 'Opzioni Avanzate', type: 'checkbox', placeholder: 'Abilita Autoscaling dinamico' },
+        ],
+      },
+    },
+  },
+  confirmationCard: {
+    name: 'Action Confirmation',
+    description: 'Approvazione Human-in-the-Loop',
+    payload: {
+      component: 'ConfirmationCard',
+      props: {
+        title: 'Autorizza Rimborso Transazione',
+        message: 'L azione accrediterà immediatamente i fondi al cliente e annullerà l abbonamento.',
+        severity: 'danger',
+        details: [
+          { label: 'ID Transazione', value: 'tx_99382109' },
+          { label: 'Importo Rimborso', value: '€ 1.250,00' },
+          { label: 'Metodo', value: 'Carta di Credito (Stripe)' },
+        ],
+        confirmLabel: 'Esegui Rimborso Ora',
+        cancelLabel: 'Annulla Operazione',
       },
     },
   },

@@ -4,4 +4,5 @@ export default defineWorkspace([
   'packages/core',
   'packages/vue',
   'packages/nuxt',
+  'packages/ui-kit',
 ]);

@@ -1,14 +1,19 @@
 import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
+import { intentUIComponents } from '@intentui/ui-kit';
 import DefaultSkeleton from './components/DefaultSkeleton.vue';
 
 /**
- * IntentUI configuration with automatic component discovery.
- * Components in ./components/*.vue declare their own schemas and descriptions via `defineIntent()`.
+ * IntentUI configuration combining:
+ * 1. Locally auto-discovered components in ./components/*.vue
+ * 2. Standard headless UI Kit components from @intentui/ui-kit (MetricCard, DataTable, FormWizard, ConfirmationCard)
  */
 export const intentUI = createIntentUI({
-  components: autoDiscoverComponents(
-    import.meta.glob('./components/*.vue', { eager: true })
-  ),
+  components: {
+    ...intentUIComponents,
+    ...autoDiscoverComponents(
+      import.meta.glob('./components/*.vue', { eager: true })
+    ),
+  },
   fallback: DefaultSkeleton,
 });
 

@@ -67,7 +67,7 @@
             :disabled="isStreaming"
             @click="runScenario(key)"
           >
-            <span class="scenario-icon">{{ key === 'salesChart' ? '📊' : '🏨' }}</span>
+            <span class="scenario-icon">{{ getScenarioIcon(key) }}</span>
             <div class="scenario-info">
               <span class="scenario-name">{{ getInfo(key)?.name }}</span>
               <span class="scenario-desc">{{ getInfo(key)?.description }}</span>
@@ -204,6 +204,18 @@ watch(selectedProvider, (p) => {
 
 function getInfo(key: string) {
   return getScenarioInfo(key);
+}
+
+function getScenarioIcon(key: string): string {
+  switch (key) {
+    case 'salesChart': return '📊';
+    case 'metricCard': return '📈';
+    case 'dataTable': return '📋';
+    case 'formWizard': return '📝';
+    case 'confirmationCard': return '🛡️';
+    case 'bookingCard': return '🏨';
+    default: return '⚡';
+  }
 }
 
 function handleClear() {
@@ -402,50 +414,81 @@ body {
 }
 
 .scenario-buttons {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.65rem;
 }
 
 .scenario-btn {
-  flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.85rem;
-  padding: 1rem;
-  background: #131b2e;
+  padding: 0.95rem 1.1rem;
+  background: linear-gradient(135deg, #131b2e 0%, #0e1526 100%);
   border: 1px solid #1e293b;
-  border-radius: 0.75rem;
+  border-radius: 0.85rem;
   color: #e2e8f0;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   text-align: left;
+  position: relative;
+  overflow: hidden;
 }
 
 .scenario-btn:hover:not(:disabled) {
-  border-color: #6366f1;
-  background: #1a2238;
+  border-color: rgba(99, 102, 241, 0.6);
+  background: linear-gradient(135deg, #18223d 0%, #111a30 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
 }
 
 .scenario-btn.active {
   border-color: #6366f1;
-  background: rgba(99, 102, 241, 0.15);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.08) 100%);
+  box-shadow: 0 0 0 1px #6366f1, 0 8px 24px rgba(99, 102, 241, 0.25);
 }
 
 .scenario-icon {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0.45rem;
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.scenario-btn.active .scenario-icon {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.scenario-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .scenario-name {
   font-weight: 600;
-  font-size: 0.9rem;
-  display: block;
+  font-size: 0.88rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .scenario-desc {
-  font-size: 0.75rem;
+  font-size: 0.76rem;
   color: #94a3b8;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .chat-input-panel {

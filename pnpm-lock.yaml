@@ -60,6 +60,25 @@ importers:
         specifier: ^3.23
         version: 3.25.76
 
+  packages/ui-kit:
+    dependencies:
+      '@intentui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@intentui/vue':
+        specifier: workspace:*
+        version: link:../vue
+      vue:
+        specifier: '>=3.4.0'
+        version: 3.5.41(typescript@5.9.3)
+      zod:
+        specifier: ^3.23
+        version: 3.25.76
+    devDependencies:
+      unplugin-vue:
+        specifier: ^7.2.0
+        version: 7.2.0(esbuild@0.28.2)(jiti@2.7.0)(rolldown@1.2.5)(rollup@4.62.5)(terser@5.50.0)(vue@3.5.41(typescript@5.9.3))(yaml@2.9.0)
+
   packages/vue:
     dependencies:
       '@intentui/core':
@@ -78,6 +97,9 @@ importers:
 
   playground:
     dependencies:
+      '@intentui/ui-kit':
+        specifier: workspace:*
+        version: link:../packages/ui-kit
       '@intentui/vue':
         specifier: workspace:*
         version: link:../packages/vue
