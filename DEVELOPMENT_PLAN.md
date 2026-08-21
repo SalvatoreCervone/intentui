@@ -883,16 +883,17 @@ pnpm changeset publish
 
 ---
 
-### ⏳ Phase 2: Composable & Provider Integration (In Progress)
-- [ ] Step 14: Provider interface & protocol (`packages/core/src/providers/types.ts`)
-- [ ] Step 15: OpenAI Provider (`packages/core/src/providers/openai.ts`) + unit tests
-- [ ] Step 16: Gemini Provider (`packages/core/src/providers/gemini.ts`) + unit tests
-- [ ] Step 17: Anthropic Provider (`packages/core/src/providers/anthropic.ts`) + unit tests
-- [ ] Step 18: Ollama Provider (`packages/core/src/providers/ollama.ts`) + unit tests
-- [ ] Step 19: Provider exports and barrel in `@intentui/core`
-- [ ] Step 20: Agentic round-trip loop in `useIntentChat` & history persistence
-- [ ] Step 21: Playground multi-provider UI (mock / OpenAI / Gemini / Anthropic / Ollama)
-- [ ] Step 22: Vitest provider tests & end-to-end browser validation
+### ✅ Phase 2: Composable & Provider Integration (Completed)
+- [x] Step 14: Provider interface & protocol (`packages/core/src/providers/types.ts`)
+- [x] Step 15: OpenAI Provider (`packages/core/src/providers/openai.ts`) + 3 unit tests
+- [x] Step 16: Gemini Provider (`packages/core/src/providers/gemini.ts`) + 1 unit test
+- [x] Step 17: Anthropic Provider (`packages/core/src/providers/anthropic.ts`) + 2 unit tests
+- [x] Step 18: Ollama Provider (`packages/core/src/providers/ollama.ts`) + 3 unit tests
+- [x] Step 19: Provider exports and barrel in `@intentui/core`
+- [x] Step 20: Agentic round-trip loop in `useIntentChat` & history persistence
+- [x] Step 21: Playground multi-provider UI (mock / OpenAI / Gemini / Anthropic / Ollama)
+- [x] Step 22: Vitest provider tests & end-to-end browser validation
+- [x] Step 23: Component Auto-Discovery (`defineIntent` + `autoDiscoverComponents`) + 8 unit tests
 
 ---
 

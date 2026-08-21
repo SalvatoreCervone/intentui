@@ -27,6 +27,25 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineIntent } from '@intentui/vue';
+import { z } from 'zod';
+
+export const intent = defineIntent({
+  description:
+    'Usa questo grafico ESCLUSIVAMENTE per mostrare vendite commerciali, fatturato, ricavi, ordini e andamento finanziario in denaro (EUR/USD)',
+  schema: z.object({
+    title: z.string().describe('Titolo del grafico di vendita'),
+    timeframe: z.enum(['daily', 'weekly', 'monthly']).describe('Granularità temporale'),
+    metrics: z.array(
+      z.object({
+        label: z.string().describe('Mese o periodo di vendita'),
+        value: z.number().describe('Importo vendite in euro'),
+      })
+    ).describe('Dati di vendita'),
+  }),
+});
+</script>
 
 <script setup lang="ts">
 import { computed } from 'vue';

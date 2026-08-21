@@ -3,9 +3,10 @@ export { createStreamParser } from './parser';
 export type { StreamParserOptions, StreamParser } from './parser';
 
 // Registry
-export { createRegistry } from './registry';
+export { createRegistry, defineIntent } from './registry';
 export type {
   ComponentDefinition,
+  IntentDefinition,
   RegistryOptions,
   ResolvedComponent,
   ToolDefinition,

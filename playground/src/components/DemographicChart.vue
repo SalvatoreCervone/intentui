@@ -39,6 +39,26 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+import { defineIntent } from '@intentui/vue';
+import { z } from 'zod';
+
+export const intent = defineIntent({
+  description:
+    'Usa questo grafico per mostrare dati sulla POPOLAZIONE, numero di abitanti, cittadini residenti, demografia di città, province o nazioni',
+  schema: z.object({
+    title: z.string().describe('Titolo del grafico demografico (es. Popolazione residente)'),
+    category: z.string().optional().describe('Categoria (es. Città italiane, Regioni)'),
+    unit: z.string().optional().describe('Unità di misura (es. abitanti, persone, residenti)'),
+    metrics: z.array(
+      z.object({
+        label: z.string().describe('Nome della città, regione o nazione'),
+        value: z.number().describe('Numero di abitanti o residenti'),
+      })
+    ).describe('Dati sulla popolazione per ogni città/regione'),
+  }),
+});
+</script>
 
 <script setup lang="ts">
 import { computed } from 'vue';

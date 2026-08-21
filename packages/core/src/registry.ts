@@ -14,6 +14,39 @@ export interface ComponentDefinition {
 }
 
 /**
+ * Standalone intent metadata and schema definition for a component.
+ * Allows components to declare their AI capabilities inline or in companion schema files.
+ */
+export interface IntentDefinition<T extends ZodType = ZodType> {
+  /** Optional explicit component name (defaults to file/variable name during discovery) */
+  name?: string;
+  /** Human-readable description for the LLM to understand when to use this component */
+  description: string;
+  /** Zod schema defining and validating the component's props */
+  schema: T;
+}
+
+/**
+ * Type-helper to define an intent definition with type inference.
+ *
+ * @example
+ * ```ts
+ * export const intent = defineIntent({
+ *   description: 'Interactive sales chart showing revenue breakdown over time',
+ *   schema: z.object({
+ *     title: z.string(),
+ *     metrics: z.array(z.object({ label: z.string(), value: z.number() })),
+ *   }),
+ * });
+ * ```
+ */
+export function defineIntent<T extends ZodType = ZodType>(
+  definition: IntentDefinition<T>
+): IntentDefinition<T> {
+  return definition;
+}
+
+/**
  * Options for creating a component registry.
  */
 export interface RegistryOptions {

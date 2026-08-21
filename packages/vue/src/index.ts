@@ -2,6 +2,14 @@
 export { createIntentUI } from './plugin';
 export type { IntentUIOptions, IntentUIInstance, VueComponentDefinition } from './plugin';
 
+// Discovery
+export { autoDiscoverComponents } from './discovery';
+export type { AutoDiscoverOptions } from './discovery';
+
+// Core defineIntent helper re-export
+export { defineIntent } from '@intentui/core';
+export type { IntentDefinition } from '@intentui/core';
+
 // Components
 export { IntentRenderer, default as IntentRendererDefault } from './IntentRenderer';
 export type { ProcessedChunk } from './IntentRenderer';

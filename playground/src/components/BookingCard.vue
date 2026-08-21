@@ -37,6 +37,24 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineIntent } from '@intentui/vue';
+import { z } from 'zod';
+
+export const intent = defineIntent({
+  description:
+    'Card interattiva per confermare o modificare prenotazioni di hotel, stanze e viaggi',
+  schema: z.object({
+    bookingId: z.string().describe('Identificativo della prenotazione'),
+    hotelName: z.string().describe('Nome dell hotel'),
+    checkIn: z.string().describe('Data di check-in (YYYY-MM-DD)'),
+    checkOut: z.string().describe('Data di check-out (YYYY-MM-DD)'),
+    price: z.number().describe('Prezzo totale in EUR'),
+    guests: z.number().describe('Numero di ospiti'),
+  }),
+});
+</script>
+
 <script setup lang="ts">
 defineProps<{
   bookingId: string;
