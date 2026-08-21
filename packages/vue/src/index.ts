@@ -13,7 +13,15 @@ export type { UseIntentChatOptions, UseIntentChatReturn } from './useIntentChat'
 export { useIntentUI } from './useIntentUI';
 export type { UseIntentUIOptions, UseIntentUIReturn } from './useIntentUI';
 
-// Re-export core types for convenience
+// Re-export providers & core types for convenience
+export {
+  createProvider,
+  createOpenAIProvider,
+  createGeminiProvider,
+  createAnthropicProvider,
+  createOllamaProvider,
+} from '@intentui/core';
+
 export type {
   IntentPayload,
   IntentStreamChunk,
@@ -24,4 +32,14 @@ export type {
   DeepPartial,
   Registry,
   ActionBridge,
+  LLMProvider,
+  ProviderMessage,
+  ProviderOptions,
+  ProviderStreamCallbacks,
+  ProviderType,
+  CreateProviderConfig,
+  OpenAIOptions,
+  GeminiOptions,
+  AnthropicOptions,
+  OllamaOptions,
 } from '@intentui/core';

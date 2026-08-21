@@ -1,19 +1,31 @@
 import { ref, type Ref } from 'vue';
-import { createStreamParser, type IntentStreamChunk, type IntentAction } from '@intentui/core';
+import {
+  createStreamParser,
+  type IntentStreamChunk,
+  type IntentAction,
+  type LLMProvider,
+  type ProviderMessage,
+} from '@intentui/core';
 import type { IntentUIInstance } from './plugin';
 
 /**
  * Options for the `useIntentChat` composable.
  */
 export interface UseIntentChatOptions {
-  /** API endpoint that returns streaming intent payloads */
-  api: string;
   /** The IntentUI instance (created via `createIntentUI`) */
   intentUI: IntentUIInstance;
-  /** HTTP headers for the API request */
+  /** Custom backend API endpoint URL (optional if provider is passed) */
+  api?: string;
+  /** Direct LLM Provider instance (OpenAI, Gemini, Claude, Ollama) */
+  provider?: LLMProvider;
+  /** HTTP headers for API requests */
   headers?: Record<string, string>;
+  /** System prompt for the conversation */
+  systemPrompt?: string;
   /** Called when an action from a rendered component is completed */
   onActionComplete?: (action: IntentAction) => void | Promise<void>;
+  /** Automatically trigger next LLM completion when an action is emitted (default: true) */
+  autoContinueOnAction?: boolean;
 }
 
 /**
@@ -22,10 +34,16 @@ export interface UseIntentChatOptions {
 export interface UseIntentChatReturn {
   /** Reactive stream of intent chunks for IntentRenderer */
   aiStream: Ref<IntentStreamChunk[]>;
-  /** Send a user prompt to the API */
+  /** Multi-turn message history */
+  messages: Ref<ProviderMessage[]>;
+  /** Send a user prompt to the AI */
   sendPrompt: (message: string) => Promise<void>;
   /** Handle an action emitted by a rendered component */
-  handleComponentAction: (componentName: string, event: string, data: unknown) => void;
+  handleComponentAction: (componentName: string, event: string, data: unknown) => Promise<void>;
+  /** Cancel the currently active streaming response */
+  cancelStream: () => void;
+  /** Clear conversation history and reset active stream */
+  clearChat: () => void;
   /** Whether the stream is currently active */
   isStreaming: Ref<boolean>;
   /** Any error that occurred during the last request */
@@ -33,41 +51,125 @@ export interface UseIntentChatReturn {
 }
 
 /**
- * Composable for managing the AI chat loop and generative UI streaming.
+ * Composable for managing the AI chat lifecycle and generative UI streaming.
  *
- * Sends user prompts to the configured API endpoint, receives streaming
- * responses, decodes them with the core StreamParser, and produces a
- * reactive `aiStream` ref that can be passed to `<IntentRenderer>`.
+ * Supports both direct LLM Provider instances (OpenAI, Gemini, Claude, Ollama)
+ * and custom backend API endpoints (`api: '/api/generate-ui'`).
+ *
+ * Implements the full agentic round-trip loop: when a user clicks a button or
+ * submits a form in a rendered component, `useIntentChat` automatically formats
+ * the action as a `tool` response message and continues the conversation.
  *
  * @example
  * ```ts
- * const { aiStream, sendPrompt, isStreaming, handleComponentAction } = useIntentChat({
- *   api: '/api/generate-ui',
+ * const { aiStream, messages, sendPrompt, handleComponentAction } = useIntentChat({
  *   intentUI,
- *   onActionComplete: (action) => {
- *     console.log('User action:', action);
- *   },
+ *   provider: createOpenAIProvider({ model: 'gpt-4o', apiKey: 'sk-...' }),
+ *   onActionComplete: (action) => console.log('Action performed:', action),
  * });
  *
- * // Send a prompt
- * await sendPrompt('Show me sales data for Q1');
+ * await sendPrompt('Show sales breakdown for last quarter');
  * ```
  */
 export function useIntentChat(options: UseIntentChatOptions): UseIntentChatReturn {
   const aiStream = ref<IntentStreamChunk[]>([]) as Ref<IntentStreamChunk[]>;
+  const messages = ref<ProviderMessage[]>([]) as Ref<ProviderMessage[]>;
   const isStreaming = ref(false);
   const error = ref<Error | null>(null);
 
-  // Register the action callback on the bridge
-  if (options.onActionComplete) {
-    options.intentUI.onAction(options.onActionComplete);
+  let abortController: AbortController | null = null;
+  const autoContinue = options.autoContinueOnAction ?? true;
+
+  // Initialize with system prompt if provided
+  if (options.systemPrompt && messages.value.length === 0) {
+    messages.value.push({ role: 'system', content: options.systemPrompt });
   }
 
-  async function sendPrompt(message: string): Promise<void> {
-    // Reset state
+  // Register bridge action handler
+  options.intentUI.onAction(async (action) => {
+    if (options.onActionComplete) {
+      await options.onActionComplete(action);
+    }
+  });
+
+  function cancelStream(): void {
+    if (abortController) {
+      abortController.abort();
+      abortController = null;
+    }
+    isStreaming.value = false;
+  }
+
+  function clearChat(): void {
+    cancelStream();
     aiStream.value = [];
+    messages.value = options.systemPrompt
+      ? [{ role: 'system', content: options.systemPrompt }]
+      : [];
     error.value = null;
+  }
+
+  async function executeStream(): Promise<void> {
+    cancelStream();
+    abortController = new AbortController();
     isStreaming.value = true;
+    error.value = null;
+
+    let assistantText = '';
+    let lastIntent: { component: string; props: Record<string, unknown> } | null = null;
+
+    // Use direct Provider if available
+    if (options.provider) {
+      try {
+        await options.provider.stream(
+          messages.value,
+          {
+            onChunk: (chunk) => {
+              if (chunk.text) {
+                assistantText += chunk.text;
+              }
+              if (chunk.intent) {
+                lastIntent = chunk.intent;
+              }
+
+              // Replace the last streaming chunk or add a new one
+              const lastIndex = aiStream.value.length - 1;
+              const lastChunk = lastIndex >= 0 ? aiStream.value[lastIndex] : undefined;
+
+              if (lastChunk && !lastChunk.done && lastChunk.intent) {
+                aiStream.value[lastIndex] = chunk;
+              } else {
+                aiStream.value.push(chunk);
+              }
+            },
+            onComplete: () => {
+              // Record assistant response in message history
+              const content = assistantText || (lastIntent ? `[Rendered ${lastIntent.component}]` : '');
+              if (content) {
+                messages.value.push({ role: 'assistant', content });
+              }
+              isStreaming.value = false;
+            },
+            onError: (err) => {
+              error.value = err;
+              isStreaming.value = false;
+            },
+          },
+          abortController.signal
+        );
+      } catch (err) {
+        error.value = err instanceof Error ? err : new Error(String(err));
+        isStreaming.value = false;
+      }
+      return;
+    }
+
+    // Fallback: Use HTTP API endpoint
+    if (!options.api) {
+      error.value = new Error('Either `provider` or `api` option must be provided to useIntentChat');
+      isStreaming.value = false;
+      return;
+    }
 
     try {
       const response = await fetch(options.api, {
@@ -76,7 +178,11 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
           'Content-Type': 'application/json',
           ...options.headers,
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+          messages: messages.value,
+          tools: options.intentUI.getToolsDefinition(),
+        }),
+        signal: abortController.signal,
       });
 
       if (!response.ok) {
@@ -92,7 +198,6 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
 
       const parser = createStreamParser({
         onPartial: (value) => {
-          // Update the stream with the partial payload
           const payload = value as Record<string, unknown>;
           const chunk: IntentStreamChunk = {
             intent: {
@@ -102,7 +207,6 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
             done: false,
           };
 
-          // Replace the last streaming chunk or add a new one
           const lastIndex = aiStream.value.length - 1;
           const lastChunk = lastIndex >= 0 ? aiStream.value[lastIndex] : undefined;
 
@@ -115,17 +219,15 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
 
         onComplete: (value) => {
           if (value === undefined) return;
-
           const payload = value as Record<string, unknown>;
+          const component = (payload.component as string) ?? '';
+          const props = (payload.props as Record<string, unknown>) ?? {};
+
           const chunk: IntentStreamChunk = {
-            intent: {
-              component: (payload.component as string) ?? '',
-              props: (payload.props as Record<string, unknown>) ?? {},
-            },
+            intent: { component, props },
             done: true,
           };
 
-          // Replace the last streaming chunk with the final version
           const lastIndex = aiStream.value.length - 1;
           const lastChunk = lastIndex >= 0 ? aiStream.value[lastIndex] : undefined;
 
@@ -134,6 +236,8 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
           } else {
             aiStream.value.push(chunk);
           }
+
+          messages.value.push({ role: 'assistant', content: `[Rendered ${component}]` });
         },
 
         onError: (err) => {
@@ -141,7 +245,6 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
         },
       });
 
-      // Read the stream
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -150,23 +253,48 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
         parser.push(text);
       }
 
-      // Finalize
       parser.end();
     } catch (err) {
-      error.value = err instanceof Error ? err : new Error(String(err));
+      if ((err as Error).name !== 'AbortError') {
+        error.value = err instanceof Error ? err : new Error(String(err));
+      }
     } finally {
       isStreaming.value = false;
     }
   }
 
-  function handleComponentAction(componentName: string, event: string, data: unknown): void {
+  async function sendPrompt(message: string): Promise<void> {
+    messages.value.push({ role: 'user', content: message });
+    await executeStream();
+  }
+
+  async function handleComponentAction(
+    componentName: string,
+    event: string,
+    data: unknown
+  ): Promise<void> {
+    // Emit through bridge
     options.intentUI.bridge.emit(componentName, event, data);
+
+    // Agentic feedback loop: append tool result and continue conversation
+    if (autoContinue) {
+      messages.value.push({
+        role: 'tool',
+        name: `render_${componentName.toLowerCase()}`,
+        content: JSON.stringify({ event, data }),
+      });
+
+      await executeStream();
+    }
   }
 
   return {
     aiStream,
+    messages,
     sendPrompt,
     handleComponentAction,
+    cancelStream,
+    clearChat,
     isStreaming,
     error,
   };

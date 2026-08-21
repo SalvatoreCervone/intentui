@@ -649,42 +649,89 @@ See [Testing Strategy](#8-testing-strategy) below for details.
 
 ---
 
-## 6. Phase 4 — Nuxt 3 Module & UI Kit
+## 6. Phase 4 — Nuxt 3 Module, UI Kit & Directory Auto-Discovery
 
 ### 6.1 `@intentui/nuxt` (`packages/nuxt`)
 
 A zero-config Nuxt 3 module that:
-
 - Auto-imports `IntentRenderer`, `useIntentChat`, `useIntentUI`.
-- Scans a `~/components/intent/` directory for components and auto-registers them.
+- Scans `~/components/intent/` directory for components and auto-registers them.
 - Provides server-side API routes for proxying LLM calls (keeps API keys on the server).
 - Supports SSR-compatible streaming (Nuxt `useAsyncData` + Suspense integration).
-
-#### Key Files
-
-| File | Purpose |
-|---|---|
-| `packages/nuxt/src/module.ts` | Nuxt module definition (`defineNuxtModule`) |
-| `packages/nuxt/src/runtime/plugin.ts` | Auto-registers IntentUI on the Vue app |
-| `packages/nuxt/src/runtime/composables.ts` | Re-exports with Nuxt auto-import markers |
-| `packages/nuxt/src/runtime/server/api/generate-ui.post.ts` | Server route for LLM proxy |
 
 ### 6.2 UI Kit (`packages/ui-kit`)
 
 Optional, headless-first component library with sensible defaults:
+- `IntentChart`: Interactive charts (bar, line, donut) with tool calling schemas.
+- `IntentTable`: Filterable, sortable data table with pagination.
+- `IntentMetricCard`: KPI metric cards with trend indicators.
+- `IntentForm`: Dynamic step form wizard.
+- `IntentConfirmation`: Dialog / card for transactional confirmations.
 
-| Component | Description |
-|---|---|
-| `IntentChart` | Wrapper around a charting library (Chart.js or lightweight alternative) |
-| `IntentTable` | Filterable, sortable data table |
-| `IntentMetricCard` | KPI display card with trend indicator |
-| `IntentForm` | Dynamic form from schema |
-| `IntentConfirmation` | Confirmation dialog / card |
+### 6.3 Directory Auto-Discovery & Auto-Registration (Zero-Boilerplate)
 
-Each component ships with:
-- A Zod schema (for auto-registration).
-- Headless (unstyled) + styled (dark-mode) variants.
-- Built-in `@action` / `@submit` emission following the bridge protocol.
+To eliminate manual component registration, IntentUI provides automatic directory scanning for both Vite (Vue 3) and Nuxt 3 projects.
+
+#### How It Works
+
+Developers drop their Vue components into a designated folder (e.g. `src/components/intent/` or `~/components/intent/`). IntentUI automatically discovers them, extracts their schemas and descriptions, and builds the component registry and LLM tool definitions with zero boilerplate.
+
+#### Component Definition Conventions
+
+Developers can define a component's schema in one of two ways:
+
+##### Option A: Exported `intent` Definition (Recommended)
+```vue
+<!-- components/intent/SalesChart.vue -->
+<template>
+  <div class="chart">...</div>
+</template>
+
+<script lang="ts">
+import { z } from 'zod';
+import { defineIntent } from '@intentui/vue';
+
+export const intent = defineIntent({
+  description: 'Interactive sales chart showing revenue breakdown over time',
+  schema: z.object({
+    title: z.string(),
+    timeframe: z.enum(['daily', 'weekly', 'monthly']),
+    metrics: z.array(z.object({ label: z.string(), value: z.number() })),
+  }),
+});
+</script>
+
+<script setup lang="ts">
+// Normal component logic...
+</script>
+```
+
+##### Option B: Companion `.schema.ts` File
+```
+components/intent/
+├── SalesChart.vue
+├── SalesChart.schema.ts    # export const schema = z.object({...}); export const description = "...";
+├── BookingCard.vue
+└── BookingCard.schema.ts
+```
+
+#### Vite / Vue 3 Implementation (`import.meta.glob`)
+```typescript
+import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
+
+export const intentUI = createIntentUI({
+  // Auto-scans all .vue files in the directory
+  components: autoDiscoverComponents(
+    import.meta.glob('./components/intent/*.vue', { eager: true })
+  ),
+});
+```
+
+#### Nuxt 3 Implementation (Zero Config)
+The `@intentui/nuxt` module automatically registers a Nuxt hook that scans `~/components/intent/` at build/dev time:
+- Automatically registers all `.vue` components in the directory.
+- Auto-generates server-side LLM tool definitions.
+- Auto-imports composables and `<IntentRenderer>` across the entire Nuxt application.
 
 ---
 
