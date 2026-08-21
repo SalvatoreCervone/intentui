@@ -1,0 +1,30 @@
+{
+  "name": "@intentui/core",
+  "version": "0.0.1",
+  "description": "Framework-agnostic core engine for IntentUI — streaming parser, component registry, and action bridge",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "zod": "^3.23"
+  },
+  "dependencies": {
+    "partial-json": "^0.1.7",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "baseUrl": ".",
+    "paths": {
+      "@intentui/vue": ["../packages/vue/src"],
+      "@intentui/core": ["../packages/core/src"]
+    }
+  },
+  "include": ["src", "env.d.ts"]
+}

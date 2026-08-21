@@ -1,0 +1,35 @@
+{
+  "name": "@intentui/vue",
+  "version": "0.0.1",
+  "description": "Vue 3 & Nuxt bindings for IntentUI — intent-driven generative UI components",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "vue": ">=3.4.0",
+    "zod": "^3.23"
+  },
+  "dependencies": {
+    "@intentui/core": "workspace:*"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "unplugin-vue": "^7.2.0"
+  }
+}

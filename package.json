@@ -1,0 +1,25 @@
+{
+  "name": "intentui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter playground dev",
+    "build": "pnpm -r --filter './packages/*' build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "clean": "pnpm -r exec rm -rf dist node_modules"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^15.7.4",
+    "typescript": "^5.6.3",
+    "unbuild": "^3.2.0",
+    "vitest": "^2.1.8"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
