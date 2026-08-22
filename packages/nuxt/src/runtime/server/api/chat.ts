@@ -24,13 +24,13 @@ declare function useRuntimeConfig(): {
  * Reads API keys safely from server environment variables without client exposure.
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody<{
+  const body = (await readBody<{
     messages?: ProviderMessage[];
     prompt?: string;
     tools?: ToolDefinition[];
     model?: string;
     provider?: 'openai' | 'gemini' | 'anthropic' | 'ollama';
-  }>(event);
+  }>(event)) ?? {};
 
   const runtimeConfig = typeof useRuntimeConfig === 'function' ? useRuntimeConfig() : {};
   const serverConfig = runtimeConfig.intentui || {};

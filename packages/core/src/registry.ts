@@ -206,9 +206,8 @@ export function createRegistry(options: RegistryOptions): Registry {
         });
 
         // Extract the actual schema definition (zodToJsonSchema wraps it)
-        const parameters =
-          (jsonSchema as Record<string, unknown>).definitions?.[name] ??
-          jsonSchema;
+        const definitions = (jsonSchema as { definitions?: Record<string, unknown> }).definitions;
+        const parameters = definitions?.[name] ?? jsonSchema;
 
         tools.push({
           type: 'function',

@@ -201,7 +201,8 @@ export function simulateStream(
     return { cancel: () => {} };
   }
 
-  const json = JSON.stringify(scenario.payload);
+  const currentScenario = scenario;
+  const json = JSON.stringify(currentScenario.payload);
   let position = 0;
   let cancelled = false;
 
@@ -211,8 +212,8 @@ export function simulateStream(
         // Send the final complete chunk
         onChunk({
           intent: {
-            component: scenario.payload.component as string,
-            props: scenario.payload.props as Record<string, unknown>,
+            component: currentScenario.payload.component as string,
+            props: currentScenario.payload.props as Record<string, unknown>,
           },
           done: true,
         });
