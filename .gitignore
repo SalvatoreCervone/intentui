@@ -1,10 +1,60 @@
-node_modules
-dist
-.turbo
-*.log
+# Dependencies & Package Managers
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+
+# Build Outputs & Bundles
+dist/
+dist-*/
+build/
+.output/
+.nuxt/
+.nitro/
+
+# Vite & VitePress Cache / Output
+.vite/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# Monorepo Caches
+.turbo/
+.cache/
 *.tsbuildinfo
-.DS_Store
+
+# Testing & Coverage
+coverage/
+.vitest/
+
+# Environment Variables & Secrets
 .env
 .env.*
 !.env.example
-coverage
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs & Editors
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
