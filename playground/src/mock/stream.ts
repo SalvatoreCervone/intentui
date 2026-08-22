@@ -122,7 +122,66 @@ const scenarios: Record<string, MockScenario> = {
       },
     },
   },
+  actionStaging: {
+    name: 'Visual Guardrail & Staging',
+    description: 'Human-in-the-Loop con visual diff e inline editing',
+    payload: {
+      component: 'ActionStagingCard',
+      props: {
+        title: 'Autorizzazione Modifica Database Cluster',
+        description:
+          "L'agente AI richiede l'autorizzazione per scalare le risorse del database di produzione ed eseguire il backup preventivo.",
+        actionId: 'act-db-scale-99',
+        actionType: 'database_mutation',
+        riskLevel: 'high',
+        requiresExplicitAgreement: true,
+        confirmLabel: 'Approva ed Esegui Scaling ⚡',
+        cancelLabel: 'Annulla Operazione',
+        parameters: [
+          {
+            key: 'clusterName',
+            label: 'Nome Database',
+            value: 'prod-primary-pg16',
+            type: 'text',
+            editable: false,
+          },
+          {
+            key: 'targetReplicas',
+            label: 'Numero Repliche Read',
+            value: 6,
+            previousValue: 2,
+            type: 'number',
+            editable: true,
+          },
+          {
+            key: 'allocatedMemoryGb',
+            label: 'Memoria RAM Allocata (GB)',
+            value: 32,
+            previousValue: 16,
+            type: 'number',
+            editable: true,
+          },
+          {
+            key: 'enablePreBackup',
+            label: 'Backup Preventivo Snapshot',
+            value: true,
+            type: 'boolean',
+            editable: true,
+          },
+          {
+            key: 'maintenanceWindow',
+            label: 'Finestra di Manutenzione',
+            value: 'Immediate',
+            type: 'select',
+            options: ['Immediate', 'Tonight at 02:00 UTC', 'Next Weekend'],
+            editable: true,
+          },
+        ],
+      },
+    },
+  },
 };
+
 
 /**
  * Simulate streaming a JSON payload character-by-character.

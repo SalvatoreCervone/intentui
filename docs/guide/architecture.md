@@ -100,3 +100,34 @@ Quando un componente emette un evento:
 ```
 
 `useIntentChat` cattura l'evento, formatta un messaggio di tipo `tool` per l'LLM e avvia automaticamente la continuazione della conversazione, creando un'esperienza agentica conversazionale bidirezionale.
+
+---
+
+## 5. Bidirectional State Diffing & Hot Prop Patching ⚡
+
+Per evitare il costoso smontaggio e rimontaggio dei componenti (che causa sfarfallio e perdita del focus utente), IntentUI supporta il **fine-grained prop patching**:
+
+```ts
+const { patchLastIntentProps, handleStateChange } = useIntentChat({ intentUI, provider });
+
+// 1. Aggiorna istantaneamente le props visibili del componente montato
+patchLastIntentProps({ timeframe: 'monthly', currency: 'EUR' });
+
+// 2. Oppure propaga la modifica utente all'agente calcolando il delta preciso
+await handleStateChange(
+  'SalesChart',
+  { timeframe: 'monthly' }, // Nuovo stato
+  { timeframe: 'daily' },   // Stato precedente
+  true                      // Invia notifica all'agente per proseguire la conversazione
+);
+```
+
+---
+
+## 6. Human-in-the-Loop & Visual Guardrails 🛡️
+
+Per garantire la massima sicurezza su azioni distruttive o critiche (es. modifiche database, trasferimenti fondi), il kit include `<ActionStagingCard>`:
+* **Visual Diff Before/After**: confronta i valori correnti con quelli proposti.
+* **Inline Parameter Editing**: permette all'umano di ritoccare i parametri direttamente nella card prima del commit.
+* **Explicit Safety Agreement**: sblocca il pulsante di conferma solo dopo approvazione esplicita.
+

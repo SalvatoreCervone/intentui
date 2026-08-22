@@ -65,7 +65,24 @@ const provider = createOllamaProvider({
 
 ---
 
-## 5. Factory Generica `createProvider`
+## 5. WebLLM (In-Browser WebGPU / Zero-Cloud) ⚡
+
+Esegue modelli quantizzati (Llama 3.2 1B, Qwen 2.5 1.5B, Phi 3.5 mini) **completamente all'interno del browser** dell'utente tramite WebGPU. Zero costi API, zero latenza di rete e privacy totale.
+
+```ts
+import { createWebLLMProvider } from '@intentui/vue';
+
+const provider = createWebLLMProvider({
+  model: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
+  onProgress: (report) => {
+    console.log(report.text, `${Math.round(report.progress * 100)}%`);
+  },
+});
+```
+
+---
+
+## 6. Factory Generica `createProvider`
 
 Se vuoi passare il provider in modo dinamico in base alla configurazione:
 
@@ -73,8 +90,10 @@ Se vuoi passare il provider in modo dinamico in base alla configurazione:
 import { createProvider } from '@intentui/vue';
 
 const provider = createProvider({
-  type: 'openai', // 'openai' | 'gemini' | 'anthropic' | 'ollama'
-  apiKey: '...',
-  model: 'gpt-4o-mini',
+  type: 'webllm', // 'openai' | 'gemini' | 'anthropic' | 'ollama' | 'webllm'
+  options: {
+    model: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
+  },
 });
 ```
+

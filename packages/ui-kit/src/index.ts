@@ -2,11 +2,13 @@ import MetricCard, { intent as metricCardIntent } from './components/MetricCard.
 import DataTable, { intent as dataTableIntent } from './components/DataTable.vue';
 import FormWizard, { intent as formWizardIntent } from './components/FormWizard.vue';
 import ConfirmationCard, { intent as confirmationCardIntent } from './components/ConfirmationCard.vue';
+import ActionStagingCard, { intent as actionStagingCardIntent } from './components/ActionStagingCard.vue';
 
 export { MetricCard, metricCardIntent };
 export { DataTable, dataTableIntent };
 export { FormWizard, formWizardIntent };
 export { ConfirmationCard, confirmationCardIntent };
+export { ActionStagingCard, actionStagingCardIntent };
 
 /**
  * Pre-configured component registry map ready to pass into `createIntentUI({ components: intentUIComponents })`.
@@ -32,4 +34,10 @@ export const intentUIComponents = {
     description: confirmationCardIntent.description,
     schema: confirmationCardIntent.schema,
   },
+  ActionStagingCard: {
+    component: ActionStagingCard,
+    description: actionStagingCardIntent.description,
+    schema: actionStagingCardIntent.schema,
+  },
 };
+

@@ -6,8 +6,10 @@ import {
   DataTable,
   FormWizard,
   ConfirmationCard,
+  ActionStagingCard,
   intentUIComponents,
 } from '../src';
+
 
 describe('@intentui/ui-kit components', () => {
   describe('MetricCard', () => {
@@ -133,6 +135,54 @@ describe('@intentui/ui-kit components', () => {
     });
   });
 
+  describe('ActionStagingCard', () => {
+    it('should render staging parameters, diff comparison, and emit stateChange on inline edit', async () => {
+      const wrapper = mount(ActionStagingCard, {
+        props: {
+          title: 'Autorizzazione Bonifico',
+          description: 'Esecuzione trasferimento fondi verso fornitore',
+          actionId: 'tx-8831',
+          riskLevel: 'high',
+          parameters: [
+            { key: 'recipient', label: 'Beneficiario', value: 'Acme Corp', type: 'text' },
+            { key: 'amount', label: 'Importo EUR', value: 5000, previousValue: 2000, type: 'number' },
+            { key: 'urgent', label: 'Urgente', value: true, type: 'boolean' },
+          ],
+        },
+      });
+
+      expect(wrapper.text()).toContain('Autorizzazione Bonifico');
+      expect(wrapper.text()).toContain('Beneficiario');
+      expect((wrapper.find('.staging-input').element as HTMLInputElement).value).toBe('Acme Corp');
+      expect(wrapper.text()).toContain('HIGH RISK');
+      expect(wrapper.text()).toContain('2000'); // old val
+      expect(wrapper.find('.param-diff-badge').exists()).toBe(true);
+
+      // Edit a parameter inline
+      const input = wrapper.find('.staging-input');
+      await input.setValue('Acme Global LLC');
+
+
+      expect(wrapper.emitted('stateChange')).toBeDefined();
+
+      // Agreement required for HIGH risk
+      const confirmBtn = wrapper.find('.btn-staging-confirm');
+      expect(confirmBtn.attributes('disabled')).toBeDefined();
+
+      // Check the agreement box
+      await wrapper.find('.agreement-label input').setValue(true);
+      expect(confirmBtn.attributes('disabled')).toBeUndefined();
+
+      // Submit confirmation
+      await confirmBtn.trigger('click');
+      expect(wrapper.emitted('submit')).toBeDefined();
+      expect(wrapper.emitted('submit')?.[0]?.[0]).toMatchObject({
+        confirmed: true,
+        actionId: 'tx-8831',
+      });
+    });
+  });
+
   describe('Registry Integration', () => {
     it('should generate valid tool definitions for all ui-kit components', () => {
       const intentUI = createIntentUI({
@@ -140,13 +190,15 @@ describe('@intentui/ui-kit components', () => {
       });
 
       const tools = intentUI.getToolsDefinition();
-      expect(tools).toHaveLength(4);
+      expect(tools).toHaveLength(5);
 
       const toolNames = tools.map((t) => t.function.name);
       expect(toolNames).toContain('render_metric_card');
       expect(toolNames).toContain('render_data_table');
       expect(toolNames).toContain('render_form_wizard');
       expect(toolNames).toContain('render_confirmation_card');
+      expect(toolNames).toContain('render_action_staging_card');
     });
   });
 });
+
