@@ -94,4 +94,50 @@ describe('createActionBridge', () => {
     expect(() => bridge.emit('A', 'click', null)).not.toThrow();
     expect(bridge.getHistory()).toHaveLength(1);
   });
+
+  it('should emit state diffs and track them in state history', () => {
+    const onStateDiff = vi.fn();
+    const bridge = createActionBridge({ onStateDiff });
+
+    const diff = bridge.emitStateDiff('FormWizard', { step: 2 }, { step: 1 });
+
+    expect(diff.componentName).toBe('FormWizard');
+    expect(diff.diff).toEqual({ step: 2 });
+    expect(diff.previous).toEqual({ step: 1 });
+
+    expect(onStateDiff).toHaveBeenCalledWith(
+      expect.objectContaining({
+        componentName: 'FormWizard',
+        diff: { step: 2 },
+      })
+    );
+
+    expect(bridge.getStateHistory()).toHaveLength(1);
+  });
+
+  it('should support dynamic listener subscriptions and unsubscriptions', () => {
+    const bridge = createActionBridge();
+    const actionListener = vi.fn();
+    const stateListener = vi.fn();
+
+    const unsubAction = bridge.subscribeAction(actionListener);
+    const unsubState = bridge.subscribeStateDiff(stateListener);
+
+    bridge.emit('MetricCard', 'refresh', { id: 123 });
+    bridge.emitStateDiff('MetricCard', { value: 100 });
+
+    expect(actionListener).toHaveBeenCalledTimes(1);
+    expect(stateListener).toHaveBeenCalledTimes(1);
+
+    unsubAction();
+    unsubState();
+
+    bridge.emit('MetricCard', 'refresh', { id: 456 });
+    bridge.emitStateDiff('MetricCard', { value: 200 });
+
+    // Should not have received additional calls after unsubscription
+    expect(actionListener).toHaveBeenCalledTimes(1);
+    expect(stateListener).toHaveBeenCalledTimes(1);
+  });
 });
+

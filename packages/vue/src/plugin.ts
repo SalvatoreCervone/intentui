@@ -4,6 +4,7 @@ import {
   type ComponentDefinition,
   type ToolDefinition,
   type IntentAction,
+  type IntentStateDiff,
   type Registry,
   type ActionBridge,
 } from '@intentui/core';
@@ -38,7 +39,9 @@ export interface IntentUIInstance {
   /** Generate LLM tool definitions from the registered components */
   getToolsDefinition(): ToolDefinition[];
   /** Set a callback for handling actions from rendered components */
-  onAction(callback: (action: IntentAction) => void | Promise<void>): void;
+  onAction(callback: (action: IntentAction) => void | Promise<void>): () => void;
+  /** Set a callback for handling reactive state diffs from rendered components */
+  onStateDiff(callback: (diff: IntentStateDiff) => void | Promise<void>): () => void;
 }
 
 /**
@@ -68,15 +71,7 @@ export interface IntentUIInstance {
  * ```
  */
 export function createIntentUI(options: IntentUIOptions): IntentUIInstance {
-  let actionCallback: ((action: IntentAction) => void | Promise<void>) | undefined;
-
-  const bridge = createActionBridge({
-    onAction: (action) => {
-      if (actionCallback) {
-        return actionCallback(action);
-      }
-    },
-  });
+  const bridge = createActionBridge();
 
   const registry = createRegistry({
     components: options.components,
@@ -91,8 +86,12 @@ export function createIntentUI(options: IntentUIOptions): IntentUIInstance {
       return registry.getToolsDefinition();
     },
 
-    onAction(callback: (action: IntentAction) => void | Promise<void>): void {
-      actionCallback = callback;
+    onAction(callback: (action: IntentAction) => void | Promise<void>): () => void {
+      return bridge.subscribeAction(callback);
+    },
+
+    onStateDiff(callback: (diff: IntentStateDiff) => void | Promise<void>): () => void {
+      return bridge.subscribeStateDiff(callback);
     },
   };
 }

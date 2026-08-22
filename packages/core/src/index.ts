@@ -21,4 +21,6 @@ export type { IntentAction, ActionBridgeOptions, ActionBridge } from './bridge';
 export * from './providers';
 
 // Types
-export type { IntentPayload, IntentStreamChunk, DeepPartial } from './types';
+export { computeStateDiff } from './types';
+export type { IntentPayload, IntentStreamChunk, DeepPartial, IntentStateDiff } from './types';
+

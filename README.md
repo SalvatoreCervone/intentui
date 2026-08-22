@@ -8,10 +8,10 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883.svg)](https://vuejs.org/)
 [![Nuxt 3](https://img.shields.io/badge/Nuxt-3.x-00DC82.svg)](https://nuxt.com/)
-[![Tests](https://img.shields.io/badge/Tests-68%2F68%20Passing-success)](https://vitest.dev/)
+[![Tests](https://img.shields.io/badge/Tests-72%2F72%20Passing-success)](https://vitest.dev/)
 
 ```
-Tags: vue3 · generative-ui · nuxt · ai-sdk · llm-ui · function-calling · tool-calling · structured-outputs · zod · openai · gemini · claude · ollama · agentic-ui · zero-cls
+Tags: vue3 · generative-ui · nuxt · ai-sdk · llm-ui · function-calling · tool-calling · structured-outputs · zod · openai · gemini · claude · ollama · agentic-ui · zero-cls · bidirectional-loop · state-diffing
 ```
 
 ---
@@ -24,13 +24,14 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 **IntentUI bridges this gap for the entire Vue 3 and Nuxt ecosystem.**
 
-### Core Philosophy: *Safe by Design, Native by Default*
+### Core Philosophy: *Safe by Design, Native by Default, Bidirectional by Nature*
 
 1. **No Arbitrary Code Injection**: The LLM never writes raw HTML, CSS, or unsafe JavaScript. Instead, it selects and populates **your own pre-registered Vue Single File Components (SFCs)**.
 2. **Schema-Validated & Type-Safe**: Every component is backed by a strict **Zod** schema. Props are validated before and during rendering.
 3. **Progressive Streaming (Zero-CLS)**: As tokens stream from the LLM, IntentUI's *Partial JSON Parser* decodes incomplete data in real-time, displaying smooth skeletons and transitioning seamlessly into the final component.
-4. **Bidirectional Agentic Loop**: User interactions (button clicks, form submits, selection changes) emit semantic events that automatically flow back to the LLM as tool results.
+4. **Bidirectional State & Hot-Patching**: User interactions (filtering, adjusting sliders, form steps) emit fine-grained state diffs that instantly patch visible components in-place with zero flicker, while keeping the AI context continuously synchronized.
 5. **Zero-Boilerplate Auto-Discovery**: Components declare their intent inline with `defineIntent()` and are discovered with a single `autoDiscoverComponents()` call.
+
 
 ---
 
@@ -202,7 +203,25 @@ async function handleSend() {
 </script>
 ```
 
+### 5. Bidirectional State Diffing & Hot Prop Patching (Zero-Flicker)
+
+```ts
+const { handleStateChange, patchLastIntentProps } = useIntentChat({
+  intentUI,
+  onStateDiffComplete: (diff) => {
+    console.log('Props patched in real-time:', diff);
+  }
+});
+
+// 1. Hot patch visible component props instantly without unmounting
+patchLastIntentProps({ timeframe: 'monthly' });
+
+// 2. Or propagate user mutations back to both UI and the AI agent
+await handleStateChange('SalesChart', { timeframe: 'monthly' }, { timeframe: 'daily' }, /* continueThread */ true);
+```
+
 ---
+
 
 ## 🤖 Supported AI Providers
 

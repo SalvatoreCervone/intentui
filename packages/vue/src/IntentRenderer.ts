@@ -45,6 +45,8 @@ export const IntentRenderer = defineComponent({
   emits: {
     /** Emitted when a user interacts with a rendered component */
     action: (_componentName: string, _event: string, _data: unknown) => true,
+    /** Emitted when a component undergoes a fine-grained reactive state diff */
+    stateDiff: (_componentName: string, _diff: Record<string, unknown>, _previous?: Record<string, unknown>) => true,
   },
   setup(props, { emit, slots }) {
     const processedChunks = computed<ProcessedChunk[]>(() => {
@@ -97,6 +99,15 @@ export const IntentRenderer = defineComponent({
       emit('action', componentName, event, data);
     }
 
+    function onComponentStateChange(
+      componentName: string,
+      diff: Record<string, unknown>,
+      previous?: Record<string, unknown>
+    ): void {
+      props.bridge.emitStateDiff(componentName, diff, previous);
+      emit('stateDiff', componentName, diff, previous);
+    }
+
     return () => {
       const children: VNode[] = [];
 
@@ -139,6 +150,12 @@ export const IntentRenderer = defineComponent({
                 onComponentAction(chunk.componentName!, event, data),
               onSubmit: (data: unknown) =>
                 onComponentAction(chunk.componentName!, 'submit', data),
+              onSelect: (data: unknown) =>
+                onComponentAction(chunk.componentName!, 'select', data),
+              onStateChange: (diff: Record<string, unknown>, prev?: Record<string, unknown>) =>
+                onComponentStateChange(chunk.componentName!, diff, prev),
+              onDiff: (diff: Record<string, unknown>, prev?: Record<string, unknown>) =>
+                onComponentStateChange(chunk.componentName!, diff, prev),
             })
           );
         }
@@ -148,5 +165,6 @@ export const IntentRenderer = defineComponent({
     };
   },
 });
+
 
 export default IntentRenderer;

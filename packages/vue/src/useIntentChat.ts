@@ -3,6 +3,7 @@ import {
   createStreamParser,
   type IntentStreamChunk,
   type IntentAction,
+  type IntentStateDiff,
   type LLMProvider,
   type ProviderMessage,
 } from '@intentui/core';
@@ -24,6 +25,8 @@ export interface UseIntentChatOptions {
   systemPrompt?: string;
   /** Called when an action from a rendered component is completed */
   onActionComplete?: (action: IntentAction) => void | Promise<void>;
+  /** Called when a reactive state change/diff from a component is completed */
+  onStateDiffComplete?: (diff: IntentStateDiff) => void | Promise<void>;
   /** Automatically trigger next LLM completion when an action is emitted (default: true) */
   autoContinueOnAction?: boolean;
 }
@@ -40,6 +43,15 @@ export interface UseIntentChatReturn {
   sendPrompt: (message: string) => Promise<void>;
   /** Handle an action emitted by a rendered component */
   handleComponentAction: (componentName: string, event: string, data: unknown) => Promise<void>;
+  /** Handle a reactive state difference/mutation emitted by a component */
+  handleStateChange: (
+    componentName: string,
+    diff: Record<string, unknown>,
+    previous?: Record<string, unknown>,
+    continueThread?: boolean
+  ) => Promise<void>;
+  /** Fine-grained reactive patch applied directly to the current rendered intent's props */
+  patchLastIntentProps: (diff: Record<string, unknown>) => void;
   /** Cancel the currently active streaming response */
   cancelStream: () => void;
   /** Clear conversation history and reset active stream */
@@ -49,6 +61,7 @@ export interface UseIntentChatReturn {
   /** Any error that occurred during the last request */
   error: Ref<Error | null>;
 }
+
 
 /**
  * Composable for managing the AI chat lifecycle and generative UI streaming.
@@ -92,6 +105,13 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
     }
   });
 
+  // Register bridge state diff handler
+  options.intentUI.onStateDiff(async (diff) => {
+    if (options.onStateDiffComplete) {
+      await options.onStateDiffComplete(diff);
+    }
+  });
+
   function cancelStream(): void {
     if (abortController) {
       abortController.abort();
@@ -107,6 +127,23 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
       ? [{ role: 'system', content: options.systemPrompt }]
       : [];
     error.value = null;
+  }
+
+  function patchLastIntentProps(diff: Record<string, unknown>): void {
+    const lastIndex = aiStream.value.length - 1;
+    if (lastIndex >= 0 && aiStream.value[lastIndex]?.intent) {
+      const currentChunk = aiStream.value[lastIndex]!;
+      aiStream.value[lastIndex] = {
+        ...currentChunk,
+        intent: {
+          ...currentChunk.intent!,
+          props: {
+            ...currentChunk.intent!.props,
+            ...diff,
+          },
+        },
+      };
+    }
   }
 
   async function executeStream(): Promise<void> {
@@ -288,14 +325,41 @@ export function useIntentChat(options: UseIntentChatOptions): UseIntentChatRetur
     }
   }
 
+  async function handleStateChange(
+    componentName: string,
+    diff: Record<string, unknown>,
+    previous?: Record<string, unknown>,
+    continueThread: boolean = false
+  ): Promise<void> {
+    // 1. Emit through bridge
+    options.intentUI.bridge.emitStateDiff(componentName, diff, previous);
+
+    // 2. Reactively patch local props for instant UI update
+    patchLastIntentProps(diff);
+
+    // 3. If continueThread is requested, notify agent of state change
+    if (continueThread) {
+      messages.value.push({
+        role: 'tool',
+        name: `state_diff_${componentName.toLowerCase()}`,
+        content: JSON.stringify({ diff, previous }),
+      });
+
+      await executeStream();
+    }
+  }
+
   return {
     aiStream,
     messages,
     sendPrompt,
     handleComponentAction,
+    handleStateChange,
+    patchLastIntentProps,
     cancelStream,
     clearChat,
     isStreaming,
     error,
   };
 }
+

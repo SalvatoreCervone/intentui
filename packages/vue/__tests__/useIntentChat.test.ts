@@ -98,4 +98,50 @@ describe('useIntentChat with Provider & Agentic Loop', () => {
     expect(callCount).toBe(2);
     expect(chat.messages.value.some((m) => m.role === 'tool')).toBe(true);
   });
+
+  it('should patch local props with handleStateChange and notify onStateDiffComplete', async () => {
+    const onStateDiffComplete = vi.fn();
+    const mockProvider: LLMProvider = {
+      name: 'mock',
+      stream: vi.fn(async (_messages, callbacks) => {
+        callbacks.onChunk({
+          intent: { component: 'Card', props: { title: 'Initial Title' } },
+          done: true,
+        });
+        callbacks.onComplete();
+      }),
+    };
+
+    const intentUI = createIntentUI({
+      components: {
+        Card: {
+          component: MockComponent,
+          description: 'Card',
+          schema: z.object({ title: z.string() }),
+        },
+      },
+    });
+
+    const chat = useIntentChat({
+      intentUI,
+      provider: mockProvider,
+      onStateDiffComplete,
+    });
+
+    await chat.sendPrompt('Show card');
+    expect(chat.aiStream.value[0]?.intent?.props.title).toBe('Initial Title');
+
+    // Mutate state locally via handleStateChange
+    await chat.handleStateChange('Card', { title: 'Updated Title' }, { title: 'Initial Title' });
+
+    // Reactive props in aiStream should be patched immediately
+    expect(chat.aiStream.value[0]?.intent?.props.title).toBe('Updated Title');
+    expect(onStateDiffComplete).toHaveBeenCalledWith(
+      expect.objectContaining({
+        componentName: 'Card',
+        diff: { title: 'Updated Title' },
+      })
+    );
+  });
 });
+

@@ -5,14 +5,13 @@ import { z } from 'zod';
 import { createRegistry, createActionBridge, type IntentStreamChunk } from '@intentui/core';
 import IntentRenderer from '../src/IntentRenderer';
 
-// Mock components for testing
 const MockChart = defineComponent({
   name: 'MockChart',
   props: {
     title: { type: String, required: true },
     value: { type: Number, required: true },
   },
-  emits: ['action'],
+  emits: ['action', 'stateChange'],
   setup(props, { emit }) {
     return () =>
       h('div', { class: 'mock-chart', 'data-testid': 'chart' }, [
@@ -22,9 +21,14 @@ const MockChart = defineComponent({
           class: 'action-btn',
           onClick: () => emit('action', 'click', { selected: true }),
         }, 'Click'),
+        h('button', {
+          class: 'diff-btn',
+          onClick: () => emit('stateChange', { value: 999 }, { value: props.value }),
+        }, 'Change Value'),
       ]);
   },
 });
+
 
 const MockFallback = defineComponent({
   name: 'MockFallback',
@@ -213,4 +217,30 @@ describe('IntentRenderer', () => {
     expect(wrapper.find('.custom-loading').exists()).toBe(true);
     expect(wrapper.find('.custom-loading').text()).toBe('Custom loading: Chart');
   });
+
+  it('should emit stateDiff event and update bridge state history when child component triggers stateChange', async () => {
+    const { registry, bridge } = createTestDeps();
+    const stream: IntentStreamChunk[] = [
+      {
+        intent: { component: 'Chart', props: { title: 'Sales', value: 100 } },
+        done: true,
+      },
+    ];
+
+    const wrapper = mount(IntentRenderer, {
+      props: { stream, registry, bridge },
+    });
+
+    await wrapper.find('.diff-btn').trigger('click');
+
+    const emitted = wrapper.emitted('stateDiff');
+    expect(emitted).toBeDefined();
+    expect(emitted![0]).toEqual(['Chart', { value: 999 }, { value: 100 }]);
+
+    const stateHistory = bridge.getStateHistory();
+    expect(stateHistory).toHaveLength(1);
+    expect(stateHistory[0]?.componentName).toBe('Chart');
+    expect(stateHistory[0]?.diff).toEqual({ value: 999 });
+  });
 });
+
