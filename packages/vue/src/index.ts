@@ -28,12 +28,15 @@ export {
   createGeminiProvider,
   createAnthropicProvider,
   createOllamaProvider,
+  createWebLLMProvider,
+  computeStateDiff,
 } from '@intentui/core';
 
 export type {
   IntentPayload,
   IntentStreamChunk,
   IntentAction,
+  IntentStateDiff,
   ComponentDefinition,
   ToolDefinition,
   ResolvedComponent,
@@ -50,4 +53,7 @@ export type {
   GeminiOptions,
   AnthropicOptions,
   OllamaOptions,
+  WebLLMOptions,
+  WebLLMProgressReport,
 } from '@intentui/core';
+
