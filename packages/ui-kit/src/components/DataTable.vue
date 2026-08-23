@@ -128,13 +128,18 @@ interface Column {
 
 const props = withDefaults(
   defineProps<{
-    title: string;
-    columns: Column[];
-    rows: Record<string, any>[];
+    title?: string;
+    columns?: Column[];
+    rows?: Record<string, any>[];
+    data?: Record<string, any>[];
     searchable?: boolean;
     pageSize?: number;
   }>(),
   {
+    title: 'Tabella Dati',
+    columns: () => [],
+    rows: () => [],
+    data: () => [],
     searchable: true,
     pageSize: 5,
   }
@@ -168,8 +173,14 @@ function sortIcon(key: string): string {
   return sortOrder.value === 'asc' ? '↑' : '↓';
 }
 
+const rawRows = computed(() => {
+  if (Array.isArray(props.rows) && props.rows.length > 0) return props.rows;
+  if (Array.isArray(props.data) && props.data.length > 0) return props.data;
+  return [];
+});
+
 const filteredRows = computed(() => {
-  let result = [...props.rows];
+  let result = [...rawRows.value];
 
   if (searchQuery.value.trim()) {
     const q = searchQuery.value.toLowerCase();
