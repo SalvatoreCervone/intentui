@@ -75,9 +75,6 @@ importers:
       '@intentui-vue/core':
         specifier: workspace:*
         version: link:../core
-      '@intentui-vue/vue':
-        specifier: workspace:*
-        version: link:../vue
       vue:
         specifier: '>=3.4.0'
         version: 3.5.41(typescript@5.9.3)
@@ -94,6 +91,9 @@ importers:
       '@intentui-vue/core':
         specifier: workspace:*
         version: link:../core
+      '@intentui-vue/ui-kit':
+        specifier: workspace:*
+        version: link:../ui-kit
       vue:
         specifier: '>=3.4.0'
         version: 3.5.41(typescript@5.9.3)

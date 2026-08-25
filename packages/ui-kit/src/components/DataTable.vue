@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts">
-import { defineIntent } from '@intentui-vue/vue';
+import { defineIntent } from '@intentui-vue/core';
 import { z } from 'zod';
 
 export const intent = defineIntent({
