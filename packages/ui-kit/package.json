@@ -1,6 +1,6 @@
 {
   "name": "@intentui-vue/ui-kit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Ready-to-use, accessible, and beautifully styled Generative UI components for IntentUI",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -25,7 +25,7 @@
   },
   "peerDependencies": {
     "vue": ">=3.4.0",
-    "zod": "^3.23"
+    "zod": ">=3.0.0"
   },
   "dependencies": {
     "@intentui-vue/core": "workspace:*"

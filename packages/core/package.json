@@ -1,6 +1,6 @@
 {
   "name": "@intentui-vue/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Framework-agnostic core engine for IntentUI — streaming parser, component registry, and action bridge",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "zod": "^3.23"
+    "zod": ">=3.0.0"
   },
   "dependencies": {
     "partial-json": "^0.1.7",

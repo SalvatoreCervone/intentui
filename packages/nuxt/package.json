@@ -1,6 +1,6 @@
 {
   "name": "@intentui-vue/nuxt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Official Nuxt 3 module for IntentUI — Generative UI with zero-config auto-imports and secure server streaming",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -24,7 +24,7 @@
   "peerDependencies": {
     "nuxt": ">=3.0.0",
     "vue": ">=3.4.0",
-    "zod": "^3.23"
+    "zod": ">=3.0.0"
   },
   "peerDependenciesMeta": {
     "nuxt": {
