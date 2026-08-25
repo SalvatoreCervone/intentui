@@ -79,10 +79,10 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 | Package | Version | Description |
 |---|---|---|
-| [`@intentui-vue/core`](./packages/core) | `1.0.0` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama**). |
-| [`@intentui-vue/vue`](./packages/vue) | `1.0.0` | Native Vue 3 bindings: `<IntentRenderer>`, `useIntentChat` (agentic loop), `useIntentUI` (canvas), `defineIntent()`, and `autoDiscoverComponents()`. |
-| [`@intentui-vue/nuxt`](./packages/nuxt) | `1.0.0` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
-| [`@intentui-vue/ui-kit`](./packages/ui-kit) | `1.0.0` | Headless & styled Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, and `ConfirmationCard`. |
+| [`@intentui-vue/vue`](./packages/vue) | `1.0.1` | **All-in-One Vue 3 Suite**: includes `<IntentRenderer>`, `useIntentChat`, `useIntentUI`, `defineIntent()`, `autoDiscoverComponents()`, and full `@intentui-vue/ui-kit` components + styles. |
+| [`@intentui-vue/core`](./packages/core) | `1.0.1` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama, WebLLM**). |
+| [`@intentui-vue/ui-kit`](./packages/ui-kit) | `1.0.1` | Standalone Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, `ConfirmationCard`, `ActionStagingCard`. |
+| [`@intentui-vue/nuxt`](./packages/nuxt) | `1.0.1` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
 
 ---
 
@@ -90,15 +90,34 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 ### 1. Install dependencies
 
+Per qualsiasi progetto Vue 3 (Vite, Webpack, Laravel, ecc.), **basta installare un solo pacchetto**:
+
 ```bash
-# For Vue 3 (Vite, Webpack, etc.)
+# npm
+npm install @intentui-vue/vue zod
+
+# pnpm
 pnpm add @intentui-vue/vue zod
 
-# For Nuxt 3
-pnpm add @intentui-vue/nuxt @intentui-vue/vue zod
+# yarn
+yarn add @intentui-vue/vue zod
 ```
 
-### 2. Create your component with `defineIntent`
+*(Se usi **Nuxt 3**, puoi installare direttamente `npm install @intentui-vue/nuxt zod`, vedi la [Guida a Nuxt](/guide/nuxt)).*
+
+---
+
+### 2. Import CSS Styles
+
+Nel tuo file di ingresso principale (`main.ts` o `app.js`):
+
+```ts
+import '@intentui-vue/vue/style.css';
+```
+
+---
+
+### 3. Create your component with `defineIntent`
 
 ```vue
 <!-- src/components/intent/SalesChart.vue -->
@@ -140,18 +159,19 @@ defineProps<{
 </script>
 ```
 
-### 3. Configure with Zero-Boilerplate Auto-Discovery
+---
+
+### 4. Configure with Zero-Boilerplate Auto-Discovery
 
 ```ts
 // src/intent.config.ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
-import { intentUIComponents } from '@intentui-vue/ui-kit';
+import { createIntentUI, autoDiscoverComponents, intentUIComponents } from '@intentui-vue/vue';
 
 export const intentUI = createIntentUI({
   components: {
     // 1. Ready-made UI Kit components (MetricCard, DataTable, FormWizard, ConfirmationCard)
     ...intentUIComponents,
-    // 2. Auto-scanned local components
+    // 2. Auto-scanned local domain components
     ...autoDiscoverComponents(
       import.meta.glob('./components/intent/*.vue', { eager: true })
     ),
