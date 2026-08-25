@@ -19,7 +19,7 @@ Quando l'AI esegue azioni con impatto reale (es. pagamenti, modifiche a database
 
 ## 2. Codice
 
-Grazie a `ConfirmationCard` in `@intentui/ui-kit`, l'LLM ha già lo schema per generare la richiesta di conferma:
+Grazie a `ConfirmationCard` in `@intentui-vue/ui-kit`, l'LLM ha già lo schema per generare la richiesta di conferma:
 
 ```vue
 <!-- App.vue -->
@@ -28,7 +28,7 @@ Grazie a `ConfirmationCard` in `@intentui/ui-kit`, l'LLM ha già lo schema per g
 </template>
 
 <script setup lang="ts">
-import { useIntentChat, IntentRenderer } from '@intentui/vue';
+import { useIntentChat, IntentRenderer } from '@intentui-vue/vue';
 import { intentUI } from './intent.config';
 
 const { aiStream, sendPrompt } = useIntentChat({

@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineIntent } from '@intentui/vue';
+import { defineIntent } from '@intentui-vue/vue';
 import { z } from 'zod';
 
 export const intent = defineIntent({

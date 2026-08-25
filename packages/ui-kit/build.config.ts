@@ -26,5 +26,5 @@ export default defineBuildConfig({
       }
     },
   },
-  externals: ["vue", "zod", "@intentui/core", "@intentui/vue"],
+  externals: ["vue", "zod", "@intentui-vue/core", "@intentui-vue/vue"],
 });

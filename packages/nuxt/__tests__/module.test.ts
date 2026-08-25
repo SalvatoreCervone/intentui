@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import intentuiModule, { type ModuleOptions } from '../src/module';
 
-describe('@intentui/nuxt module', () => {
+describe('@intentui-vue/nuxt module', () => {
   it('should define module with correct metadata and configKey', async () => {
     const meta = typeof (intentuiModule as any).getMeta === 'function'
       ? await (intentuiModule as any).getMeta()
       : (intentuiModule as any).meta;
 
-    expect(meta?.name).toBe('@intentui/nuxt');
+    expect(meta?.name).toBe('@intentui-vue/nuxt');
     expect(meta?.configKey).toBe('intentui');
   });
 

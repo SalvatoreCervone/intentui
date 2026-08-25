@@ -6,7 +6,7 @@ import {
   type IntentStateDiff,
   type LLMProvider,
   type ProviderMessage,
-} from '@intentui/core';
+} from '@intentui-vue/core';
 import type { IntentUIInstance } from './plugin';
 
 /**

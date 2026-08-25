@@ -6,23 +6,23 @@ Benvenuto in **IntentUI**! In questa guida configureremo il tuo primo componente
 
 ## 1. Installazione
 
-Installa `@intentui/vue` e `zod` nel tuo progetto Vue 3:
+Installa `@intentui-vue/vue` e `zod` nel tuo progetto Vue 3:
 
 ::: code-group
 ```bash [pnpm]
-pnpm add @intentui/vue zod
+pnpm add @intentui-vue/vue zod
 ```
 
 ```bash [npm]
-npm install @intentui/vue zod
+npm install @intentui-vue/vue zod
 ```
 
 ```bash [yarn]
-yarn add @intentui/vue zod
+yarn add @intentui-vue/vue zod
 ```
 :::
 
-*(Se usi Nuxt 3, puoi installare direttamente `@intentui/nuxt`, vedi la [Guida a Nuxt](/guide/nuxt)).*
+*(Se usi Nuxt 3, puoi installare direttamente `@intentui-vue/nuxt`, vedi la [Guida a Nuxt](/guide/nuxt)).*
 
 ---
 
@@ -47,7 +47,7 @@ Con IntentUI, puoi dichiarare lo schema Zod e la descrizione del componente dire
 </template>
 
 <script lang="ts">
-import { defineIntent } from '@intentui/vue';
+import { defineIntent } from '@intentui-vue/vue';
 import { z } from 'zod';
 
 // L'intento e lo schema vivono insieme al componente!
@@ -81,7 +81,7 @@ Crea un file di configurazione, ad esempio `src/intent.config.ts`:
 
 ```ts
 // src/intent.config.ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
+import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
 
 export const intentUI = createIntentUI({
   // Scansiona automaticamente tutti i file .vue nella cartella!
@@ -118,7 +118,7 @@ Nel tuo componente principale (es. `App.vue`):
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IntentRenderer, useIntentChat, createOpenAIProvider } from '@intentui/vue';
+import { IntentRenderer, useIntentChat, createOpenAIProvider } from '@intentui-vue/vue';
 import { intentUI } from './intent.config';
 
 const inputPrompt = ref('');

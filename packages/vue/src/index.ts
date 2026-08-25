@@ -7,8 +7,8 @@ export { autoDiscoverComponents } from './discovery';
 export type { AutoDiscoverOptions } from './discovery';
 
 // Core defineIntent helper re-export
-export { defineIntent } from '@intentui/core';
-export type { IntentDefinition } from '@intentui/core';
+export { defineIntent } from '@intentui-vue/core';
+export type { IntentDefinition } from '@intentui-vue/core';
 
 // Components
 export { IntentRenderer, default as IntentRendererDefault } from './IntentRenderer';
@@ -30,7 +30,7 @@ export {
   createOllamaProvider,
   createWebLLMProvider,
   computeStateDiff,
-} from '@intentui/core';
+} from '@intentui-vue/core';
 
 export type {
   IntentPayload,
@@ -55,5 +55,5 @@ export type {
   OllamaOptions,
   WebLLMOptions,
   WebLLMProgressReport,
-} from '@intentui/core';
+} from '@intentui-vue/core';
 

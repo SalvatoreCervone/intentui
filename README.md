@@ -3,7 +3,7 @@
 > **The Intent-Driven Generative UI Toolkit for Vue 3 & Nuxt**  
 > *Transform AI streams, JSON schemas, and user intentions into rich, native, interactive Vue components.*
 
-[![npm version](https://img.shields.io/npm/v/@intentui/vue?color=6366f1&label=npm)](https://www.npmjs.com/package/@intentui/vue)
+[![npm version](https://img.shields.io/npm/v/@intentui-vue/vue?color=6366f1&label=npm)](https://www.npmjs.com/package/@intentui-vue/vue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883.svg)](https://vuejs.org/)
@@ -79,10 +79,10 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 | Package | Version | Description |
 |---|---|---|
-| [`@intentui/core`](./packages/core) | `1.0.0` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama**). |
-| [`@intentui/vue`](./packages/vue) | `1.0.0` | Native Vue 3 bindings: `<IntentRenderer>`, `useIntentChat` (agentic loop), `useIntentUI` (canvas), `defineIntent()`, and `autoDiscoverComponents()`. |
-| [`@intentui/nuxt`](./packages/nuxt) | `1.0.0` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
-| [`@intentui/ui-kit`](./packages/ui-kit) | `1.0.0` | Headless & styled Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, and `ConfirmationCard`. |
+| [`@intentui-vue/core`](./packages/core) | `1.0.0` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama**). |
+| [`@intentui-vue/vue`](./packages/vue) | `1.0.0` | Native Vue 3 bindings: `<IntentRenderer>`, `useIntentChat` (agentic loop), `useIntentUI` (canvas), `defineIntent()`, and `autoDiscoverComponents()`. |
+| [`@intentui-vue/nuxt`](./packages/nuxt) | `1.0.0` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
+| [`@intentui-vue/ui-kit`](./packages/ui-kit) | `1.0.0` | Headless & styled Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, and `ConfirmationCard`. |
 
 ---
 
@@ -92,10 +92,10 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 ```bash
 # For Vue 3 (Vite, Webpack, etc.)
-pnpm add @intentui/vue zod
+pnpm add @intentui-vue/vue zod
 
 # For Nuxt 3
-pnpm add @intentui/nuxt @intentui/vue zod
+pnpm add @intentui-vue/nuxt @intentui-vue/vue zod
 ```
 
 ### 2. Create your component with `defineIntent`
@@ -115,7 +115,7 @@ pnpm add @intentui/nuxt @intentui/vue zod
 </template>
 
 <script lang="ts">
-import { defineIntent } from '@intentui/vue';
+import { defineIntent } from '@intentui-vue/vue';
 import { z } from 'zod';
 
 export const intent = defineIntent({
@@ -144,8 +144,8 @@ defineProps<{
 
 ```ts
 // src/intent.config.ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
-import { intentUIComponents } from '@intentui/ui-kit';
+import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
+import { intentUIComponents } from '@intentui-vue/ui-kit';
 
 export const intentUI = createIntentUI({
   components: {
@@ -182,7 +182,7 @@ export const intentUI = createIntentUI({
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { IntentRenderer, useIntentChat, createOpenAIProvider } from '@intentui/vue';
+import { IntentRenderer, useIntentChat, createOpenAIProvider } from '@intentui-vue/vue';
 import { intentUI } from './intent.config';
 
 const prompt = ref('');
@@ -234,7 +234,7 @@ await handleStateChange('SalesChart', { timeframe: 'monthly' }, { timeframe: 'da
 
 ---
 
-## 🧩 Pre-Built UI Kit (`@intentui/ui-kit`)
+## 🧩 Pre-Built UI Kit (`@intentui-vue/ui-kit`)
 
 | Component | Description | Interactive Action |
 |---|---|---|
@@ -270,7 +270,7 @@ pnpm install
 # Run the full Vitest suite (12 suites, 68 tests)
 pnpm test
 
-# Build all packages (@intentui/core, @intentui/vue, @intentui/nuxt, @intentui/ui-kit)
+# Build all packages (@intentui-vue/core, @intentui-vue/vue, @intentui-vue/nuxt, @intentui-vue/ui-kit)
 pnpm build
 
 # Launch the interactive playground

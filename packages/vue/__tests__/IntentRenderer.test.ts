@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { defineComponent, h } from 'vue';
 import { z } from 'zod';
-import { createRegistry, createActionBridge, type IntentStreamChunk } from '@intentui/core';
+import { createRegistry, createActionBridge, type IntentStreamChunk } from '@intentui-vue/core';
 import IntentRenderer from '../src/IntentRenderer';
 
 const MockChart = defineComponent({

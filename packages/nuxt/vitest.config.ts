@@ -4,8 +4,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@intentui/core': path.resolve(__dirname, '../core/src'),
-      '@intentui/vue': path.resolve(__dirname, '../vue/src'),
+      '@intentui-vue/core': path.resolve(__dirname, '../core/src'),
+      '@intentui-vue/vue': path.resolve(__dirname, '../vue/src'),
     },
   },
   test: {

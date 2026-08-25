@@ -1,15 +1,15 @@
-# Modulo Nuxt 3 (`@intentui/nuxt`)
+# Modulo Nuxt 3 (`@intentui-vue/nuxt`)
 
-Il modulo ufficiale `@intentui/nuxt` fornisce un'integrazione a configurazione zero per applicazioni **Nuxt 3** con SSR e sicurezza backend integrata.
+Il modulo ufficiale `@intentui-vue/nuxt` fornisce un'integrazione a configurazione zero per applicazioni **Nuxt 3** con SSR e sicurezza backend integrata.
 
 ---
 
 ## 1. Installazione
 
-Installa `@intentui/nuxt`, `@intentui/vue` e `zod`:
+Installa `@intentui-vue/nuxt`, `@intentui-vue/vue` e `zod`:
 
 ```bash
-pnpm add @intentui/nuxt @intentui/vue zod
+pnpm add @intentui-vue/nuxt @intentui-vue/vue zod
 ```
 
 ---
@@ -22,7 +22,7 @@ Aggiungi il modulo nel tuo file di configurazione Nuxt:
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: [
-    '@intentui/nuxt'
+    '@intentui-vue/nuxt'
   ],
   intentui: {
     // Provider predefinito per il server proxy

@@ -8,7 +8,7 @@ import {
 } from '@nuxt/kit';
 
 /**
- * Configuration options for the @intentui/nuxt module.
+ * Configuration options for the @intentui-vue/nuxt module.
  */
 export interface ModuleOptions {
   /**
@@ -42,7 +42,7 @@ export interface ModuleOptions {
 
 const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@intentui/nuxt',
+    name: '@intentui-vue/nuxt',
     configKey: 'intentui',
     compatibility: {
       nuxt: '^3.0.0',
@@ -61,16 +61,16 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     addComponent({
       name: options.prefix ? `${options.prefix}Renderer` : 'IntentRenderer',
       export: 'IntentRenderer',
-      filePath: '@intentui/vue',
+      filePath: '@intentui-vue/vue',
     });
 
     // 2. Auto-import composables and core utilities
     addImports([
-      { name: 'useIntentChat', from: '@intentui/vue' },
-      { name: 'useIntentUI', from: '@intentui/vue' },
-      { name: 'defineIntent', from: '@intentui/vue' },
-      { name: 'createIntentUI', from: '@intentui/vue' },
-      { name: 'autoDiscoverComponents', from: '@intentui/vue' },
+      { name: 'useIntentChat', from: '@intentui-vue/vue' },
+      { name: 'useIntentUI', from: '@intentui-vue/vue' },
+      { name: 'defineIntent', from: '@intentui-vue/vue' },
+      { name: 'createIntentUI', from: '@intentui-vue/vue' },
+      { name: 'autoDiscoverComponents', from: '@intentui-vue/vue' },
     ]);
 
     // 3. Configure Nuxt runtimeConfig for server & client

@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue';
-import type { IntentPayload, ResolvedComponent } from '@intentui/core';
+import type { IntentPayload, ResolvedComponent } from '@intentui-vue/core';
 import type { IntentUIInstance } from './plugin';
 
 /**

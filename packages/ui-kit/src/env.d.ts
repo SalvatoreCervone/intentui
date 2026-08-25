@@ -1,6 +1,6 @@
 declare module '*.vue' {
   import type { DefineComponent } from 'vue';
-  import type { ComponentDefinition } from '@intentui/vue';
+  import type { ComponentDefinition } from '@intentui-vue/vue';
 
   const component: DefineComponent<{}, {}, any> & {
     intent: ComponentDefinition;

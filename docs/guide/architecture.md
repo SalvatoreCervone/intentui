@@ -13,10 +13,10 @@ Comprendere come funziona **IntentUI** sotto il cofano ti permette di sfruttarne
 [ LLM elabora & decide di invocare un Tool ]
          │ (Stream SSE di token JSON)
          ▼
-[ @intentui/core Parser ] ───► Parsing Parziale Tollerante (partial-json)
+[ @intentui-vue/core Parser ] ───► Parsing Parziale Tollerante (partial-json)
          │
          ▼
-[ @intentui/vue IntentRenderer ] ───► Mostra Skeleton (#loading) in tempo reale
+[ @intentui-vue/vue IntentRenderer ] ───► Mostra Skeleton (#loading) in tempo reale
          │
          ▼ (Stream Completato)
 [ Validazione Zod Strict ] ───► Renderizza Componente Vue Reattivo
@@ -67,7 +67,7 @@ const { aiStream, sendPrompt } = useIntentChat({
 
 Nel tuo backend Node.js:
 ```ts
-import { createOpenAIProvider } from '@intentui/core';
+import { createOpenAIProvider } from '@intentui-vue/core';
 
 // Legge la chiave da process.env sul server
 const provider = createOpenAIProvider({
@@ -76,7 +76,7 @@ const provider = createOpenAIProvider({
 });
 ```
 
-### B. Pattern con Modulo Nuxt 3 (`@intentui/nuxt`)
+### B. Pattern con Modulo Nuxt 3 (`@intentui-vue/nuxt`)
 Se usi Nuxt 3, il modulo gestisce tutto automaticamente:
 1. Nel file `.env`: `NUXT_INTENTUI_API_KEY=sk-...`
 2. Il modulo crea automaticamente l'endpoint server Nitro `/api/intent-chat`.

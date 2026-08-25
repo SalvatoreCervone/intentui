@@ -31,16 +31,16 @@ export default defineConfig({
           { text: 'Creazione Componenti & Schemi', link: '/guide/components' },
           { text: 'Auto-Discovery (Zero-Boilerplate)', link: '/guide/auto-discovery' },
           { text: 'Provider LLM (OpenAI, Gemini, Claude, Ollama)', link: '/guide/providers' },
-          { text: 'Modulo Nuxt 3 (@intentui/nuxt)', link: '/guide/nuxt' },
+          { text: 'Modulo Nuxt 3 (@intentui-vue/nuxt)', link: '/guide/nuxt' },
         ],
       },
       {
         text: 'API Reference',
         items: [
-          { text: '@intentui/core', link: '/api/core' },
-          { text: '@intentui/vue', link: '/api/vue' },
-          { text: '@intentui/nuxt', link: '/api/nuxt' },
-          { text: '@intentui/ui-kit', link: '/api/ui-kit' },
+          { text: '@intentui-vue/core', link: '/api/core' },
+          { text: '@intentui-vue/vue', link: '/api/vue' },
+          { text: '@intentui-vue/nuxt', link: '/api/nuxt' },
+          { text: '@intentui-vue/ui-kit', link: '/api/ui-kit' },
         ],
       },
       {

@@ -12,7 +12,7 @@ Nella configurazione di IntentUI:
 
 ```ts
 // src/intent.config.ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
+import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
 
 export const intentUI = createIntentUI({
   components: autoDiscoverComponents(
@@ -52,11 +52,11 @@ export const intentUI = createIntentUI({
 
 ## Unire Componenti della UI Kit
 
-Se vuoi usare sia i tuoi componenti personalizzati che quelli pronti all'uso di `@intentui/ui-kit`:
+Se vuoi usare sia i tuoi componenti personalizzati che quelli pronti all'uso di `@intentui-vue/ui-kit`:
 
 ```ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
-import { intentUIComponents } from '@intentui/ui-kit';
+import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
+import { intentUIComponents } from '@intentui-vue/ui-kit';
 
 export const intentUI = createIntentUI({
   components: {

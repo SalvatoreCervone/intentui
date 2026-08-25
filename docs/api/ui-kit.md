@@ -1,6 +1,6 @@
-# API Reference: `@intentui/ui-kit`
+# API Reference: `@intentui-vue/ui-kit`
 
-Il pacchetto `@intentui/ui-kit` fornisce componenti Generative UI pronti all'uso, accessibili e stilizzati con cura.
+Il pacchetto `@intentui-vue/ui-kit` fornisce componenti Generative UI pronti all'uso, accessibili e stilizzati con cura.
 
 ---
 
@@ -31,8 +31,8 @@ Card di approvazione Human-in-the-Loop per operazioni critiche o transazionali.
 ## Import Rapido nel Registry
 
 ```ts
-import { createIntentUI } from '@intentui/vue';
-import { intentUIComponents } from '@intentui/ui-kit';
+import { createIntentUI } from '@intentui-vue/vue';
+import { intentUIComponents } from '@intentui-vue/ui-kit';
 
 export const intentUI = createIntentUI({
   // Registra automaticamente tutti i 4 componenti del kit!

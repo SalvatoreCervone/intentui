@@ -1,6 +1,6 @@
-# API Reference: `@intentui/core`
+# API Reference: `@intentui-vue/core`
 
-Il pacchetto `@intentui/core` è il motore TypeScript puro di IntentUI. È indipendente da qualsiasi framework grafico.
+Il pacchetto `@intentui-vue/core` è il motore TypeScript puro di IntentUI. È indipendente da qualsiasi framework grafico.
 
 ---
 
@@ -10,7 +10,7 @@ Il pacchetto `@intentui/core` è il motore TypeScript puro di IntentUI. È indip
 Crea un'istanza del registro dei componenti, valida i payload tramite Zod e genera le tool definitions JSON Schema per gli LLM.
 
 ```ts
-import { createRegistry } from '@intentui/core';
+import { createRegistry } from '@intentui-vue/core';
 import { z } from 'zod';
 
 const registry = createRegistry({
@@ -28,7 +28,7 @@ const registry = createRegistry({
 Helper per dichiarare schema e descrizione di un componente con inferenza dei tipi.
 
 ```ts
-import { defineIntent } from '@intentui/core';
+import { defineIntent } from '@intentui-vue/core';
 import { z } from 'zod';
 
 export const intent = defineIntent({
@@ -41,7 +41,7 @@ export const intent = defineIntent({
 Parser tolerante per elaborare stream parziali di token JSON in tempo reale.
 
 ```ts
-import { createStreamParser } from '@intentui/core';
+import { createStreamParser } from '@intentui-vue/core';
 
 const parser = createStreamParser({
   onPartial: (partialObj) => console.log('Partial:', partialObj),

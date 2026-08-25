@@ -24,7 +24,7 @@ Il modo più rapido e moderno per dichiarare un intento è usare l'helper `defin
 </template>
 
 <script lang="ts">
-import { defineIntent } from '@intentui/vue';
+import { defineIntent } from '@intentui-vue/vue';
 import { z } from 'zod';
 
 export const intent = defineIntent({
@@ -79,7 +79,7 @@ components/intent/
 
 Nel file `UserCard.schema.ts`:
 ```ts
-import { defineIntent } from '@intentui/vue';
+import { defineIntent } from '@intentui-vue/vue';
 import { z } from 'zod';
 
 export const intent = defineIntent({

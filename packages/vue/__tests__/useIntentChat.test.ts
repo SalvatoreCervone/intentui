@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { defineComponent, h } from 'vue';
 import { createIntentUI } from '../src/plugin';
 import { useIntentChat } from '../src/useIntentChat';
-import type { LLMProvider, ProviderMessage, ProviderStreamCallbacks } from '@intentui/core';
+import type { LLMProvider, ProviderMessage, ProviderStreamCallbacks } from '@intentui-vue/core';
 
 const MockComponent = defineComponent({
   name: 'MockComponent',

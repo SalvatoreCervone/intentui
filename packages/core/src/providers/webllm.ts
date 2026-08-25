@@ -60,8 +60,8 @@ function fromToolName(toolName: string): string {
  *
  * @example
  * ```ts
- * import { createWebLLMProvider } from '@intentui/core';
- * import { useIntentChat } from '@intentui/vue';
+ * import { createWebLLMProvider } from '@intentui-vue/core';
+ * import { useIntentChat } from '@intentui-vue/vue';
  *
  * const provider = createWebLLMProvider({
  *   model: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',

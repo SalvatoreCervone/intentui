@@ -1,4 +1,4 @@
-import type { IntentStreamChunk } from '@intentui/core';
+import type { IntentStreamChunk } from '@intentui-vue/core';
 
 /**
  * Simulated LLM streaming responses for local development.

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, h } from 'vue';
 import { z } from 'zod';
-import { defineIntent } from '@intentui/core';
+import { defineIntent } from '@intentui-vue/core';
 import { autoDiscoverComponents, createIntentUI } from '../src';
 
 describe('autoDiscoverComponents', () => {

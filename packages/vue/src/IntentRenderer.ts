@@ -1,5 +1,5 @@
 import { defineComponent, computed, h, type PropType, type Component, type VNode } from 'vue';
-import type { IntentStreamChunk, ResolvedComponent, Registry, ActionBridge } from '@intentui/core';
+import type { IntentStreamChunk, ResolvedComponent, Registry, ActionBridge } from '@intentui-vue/core';
 
 /**
  * A processed chunk ready for rendering.

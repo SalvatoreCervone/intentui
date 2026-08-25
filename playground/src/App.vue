@@ -237,7 +237,7 @@ import {
   type IntentStreamChunk,
   type ProviderType,
   createProvider,
-} from '@intentui/vue';
+} from '@intentui-vue/vue';
 import { intentUI, toolsDefinition } from './intent.config';
 import { simulateStream, getScenarioKeys, getScenarioInfo } from './mock/stream';
 

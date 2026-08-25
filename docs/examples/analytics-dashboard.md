@@ -8,8 +8,8 @@ In questo esempio vedremo come configurare una dashboard analitica in cui l'uten
 
 ```ts
 // src/intent.config.ts
-import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
-import { intentUIComponents } from '@intentui/ui-kit';
+import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
+import { intentUIComponents } from '@intentui-vue/ui-kit';
 
 export const intentUI = createIntentUI({
   components: {

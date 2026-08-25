@@ -7,7 +7,7 @@ import {
   type ProviderMessage,
   type ToolDefinition,
   type LLMProvider,
-} from '@intentui/core';
+} from '@intentui-vue/core';
 
 // Helper to access Nuxt runtime config in server handlers
 declare function useRuntimeConfig(): {

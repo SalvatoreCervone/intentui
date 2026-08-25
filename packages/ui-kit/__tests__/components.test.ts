@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { createIntentUI } from '@intentui/vue';
+import { createIntentUI } from '@intentui-vue/vue';
 import {
   MetricCard,
   DataTable,
@@ -11,7 +11,7 @@ import {
 } from '../src';
 
 
-describe('@intentui/ui-kit components', () => {
+describe('@intentui-vue/ui-kit components', () => {
   describe('MetricCard', () => {
     it('should render metric title, value, and positive trend badge', () => {
       const wrapper = mount(MetricCard, {

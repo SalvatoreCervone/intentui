@@ -122,7 +122,7 @@ function toToolName(componentName: string): string {
  * @example
  * ```ts
  * import { z } from 'zod';
- * import { createRegistry } from '@intentui/core';
+ * import { createRegistry } from '@intentui-vue/core';
  *
  * const registry = createRegistry({
  *   components: {

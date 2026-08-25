@@ -1,5 +1,5 @@
 {
-  "name": "@intentui/vue",
+  "name": "@intentui-vue/vue",
   "version": "1.0.0",
   "description": "Vue 3 & Nuxt bindings for IntentUI — intent-driven generative UI components",
   "type": "module",
@@ -26,7 +26,7 @@
     "zod": "^3.23"
   },
   "dependencies": {
-    "@intentui/core": "workspace:*"
+    "@intentui-vue/core": "workspace:*"
   },
   "license": "MIT",
   "devDependencies": {

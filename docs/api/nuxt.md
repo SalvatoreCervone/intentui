@@ -1,4 +1,4 @@
-# API Reference: `@intentui/nuxt`
+# API Reference: `@intentui-vue/nuxt`
 
 Il modulo ufficiale Nuxt 3 per IntentUI.
 
@@ -8,7 +8,7 @@ Il modulo ufficiale Nuxt 3 per IntentUI.
 
 ```ts
 export default defineNuxtConfig({
-  modules: ['@intentui/nuxt'],
+  modules: ['@intentui-vue/nuxt'],
   intentui: {
     /** Percorso della cartella componenti intent (default: 'components/intent') */
     componentsDir: 'components/intent',

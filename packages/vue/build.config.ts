@@ -7,5 +7,5 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
   },
-  externals: ['vue', 'zod', '@intentui/core'],
+  externals: ['vue', 'zod', '@intentui-vue/core'],
 });

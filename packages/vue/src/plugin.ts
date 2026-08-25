@@ -7,7 +7,7 @@ import {
   type IntentStateDiff,
   type Registry,
   type ActionBridge,
-} from '@intentui/core';
+} from '@intentui-vue/core';
 import type { Component } from 'vue';
 
 /**
@@ -53,7 +53,7 @@ export interface IntentUIInstance {
  *
  * @example
  * ```ts
- * import { createIntentUI } from '@intentui/vue';
+ * import { createIntentUI } from '@intentui-vue/vue';
  * import { z } from 'zod';
  * import SalesChart from './components/SalesChart.vue';
  *

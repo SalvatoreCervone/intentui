@@ -1,5 +1,5 @@
 import type { Component } from 'vue';
-import type { IntentDefinition } from '@intentui/core';
+import type { IntentDefinition } from '@intentui-vue/core';
 import type { VueComponentDefinition } from './plugin';
 
 /**
@@ -44,7 +44,7 @@ function extractBaseName(filePath: string): string {
  *
  * @example
  * ```ts
- * import { createIntentUI, autoDiscoverComponents } from '@intentui/vue';
+ * import { createIntentUI, autoDiscoverComponents } from '@intentui-vue/vue';
  *
  * export const intentUI = createIntentUI({
  *   components: autoDiscoverComponents(

@@ -1,6 +1,6 @@
-# API Reference: `@intentui/vue`
+# API Reference: `@intentui-vue/vue`
 
-Il pacchetto `@intentui/vue` fornisce i binding per **Vue 3**, componenti reattivi e composables per chat e canvas.
+Il pacchetto `@intentui-vue/vue` fornisce i binding per **Vue 3**, componenti reattivi e composables per chat e canvas.
 
 ---
 

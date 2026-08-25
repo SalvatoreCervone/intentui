@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@intentui/core': path.resolve(__dirname, '../core/src'),
+      '@intentui-vue/core': path.resolve(__dirname, '../core/src'),
     },
   },
   test: {

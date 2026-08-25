@@ -13,7 +13,7 @@ export default defineBuildConfig({
     'nuxt',
     'vue',
     'zod',
-    '@intentui/core',
-    '@intentui/vue',
+    '@intentui-vue/core',
+    '@intentui-vue/vue',
   ],
 });

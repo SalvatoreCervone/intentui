@@ -6,8 +6,8 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@intentui/core': path.resolve(__dirname, '../core/src'),
-      '@intentui/vue': path.resolve(__dirname, '../vue/src'),
+      '@intentui-vue/core': path.resolve(__dirname, '../core/src'),
+      '@intentui-vue/vue': path.resolve(__dirname, '../vue/src'),
     },
   },
   test: {

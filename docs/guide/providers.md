@@ -9,7 +9,7 @@ IntentUI include connettori universali per tutti i principali modelli e provider
 Supporta modelli come `gpt-4o`, `gpt-4o-mini`, `gpt-4-turbo`.
 
 ```ts
-import { createOpenAIProvider } from '@intentui/vue';
+import { createOpenAIProvider } from '@intentui-vue/vue';
 
 const provider = createOpenAIProvider({
   apiKey: process.env.OPENAI_API_KEY,
@@ -25,7 +25,7 @@ const provider = createOpenAIProvider({
 Supporta modelli come `gemini-2.0-flash`, `gemini-1.5-pro`.
 
 ```ts
-import { createGeminiProvider } from '@intentui/vue';
+import { createGeminiProvider } from '@intentui-vue/vue';
 
 const provider = createGeminiProvider({
   apiKey: process.env.GEMINI_API_KEY,
@@ -40,7 +40,7 @@ const provider = createGeminiProvider({
 Supporta modelli come `claude-3-5-sonnet-20241022`, `claude-3-5-haiku-20241022`.
 
 ```ts
-import { createAnthropicProvider } from '@intentui/vue';
+import { createAnthropicProvider } from '@intentui-vue/vue';
 
 const provider = createAnthropicProvider({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -55,7 +55,7 @@ const provider = createAnthropicProvider({
 Supporta qualsiasi modello locale in esecuzione su Ollama compatibile con function calling (`llama3.1`, `mistral`, `qwen2.5`, `deepseek-r1`). **Zero costi e zero API key**.
 
 ```ts
-import { createOllamaProvider } from '@intentui/vue';
+import { createOllamaProvider } from '@intentui-vue/vue';
 
 const provider = createOllamaProvider({
   host: 'http://localhost:11434', // default
@@ -70,7 +70,7 @@ const provider = createOllamaProvider({
 Esegue modelli quantizzati (Llama 3.2 1B, Qwen 2.5 1.5B, Phi 3.5 mini) **completamente all'interno del browser** dell'utente tramite WebGPU. Zero costi API, zero latenza di rete e privacy totale.
 
 ```ts
-import { createWebLLMProvider } from '@intentui/vue';
+import { createWebLLMProvider } from '@intentui-vue/vue';
 
 const provider = createWebLLMProvider({
   model: 'Llama-3.2-1B-Instruct-q4f16_1-MLC',
@@ -87,7 +87,7 @@ const provider = createWebLLMProvider({
 Se vuoi passare il provider in modo dinamico in base alla configurazione:
 
 ```ts
-import { createProvider } from '@intentui/vue';
+import { createProvider } from '@intentui-vue/vue';
 
 const provider = createProvider({
   type: 'webllm', // 'openai' | 'gemini' | 'anthropic' | 'ollama' | 'webllm'
