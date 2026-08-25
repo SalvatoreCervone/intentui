@@ -79,10 +79,10 @@ Existing tooling for **Generative UI** has been almost exclusively built around 
 
 | Package | Version | Description |
 |---|---|---|
-| [`@intentui/core`](./packages/core) | `0.0.1` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama**). |
-| [`@intentui/vue`](./packages/vue) | `0.0.1` | Native Vue 3 bindings: `<IntentRenderer>`, `useIntentChat` (agentic loop), `useIntentUI` (canvas), `defineIntent()`, and `autoDiscoverComponents()`. |
-| [`@intentui/nuxt`](./packages/nuxt) | `0.0.1` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
-| [`@intentui/ui-kit`](./packages/ui-kit) | `0.0.1` | Headless & styled Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, and `ConfirmationCard`. |
+| [`@intentui/core`](./packages/core) | `1.0.0` | Zero-dependency core engine: tolerant partial streaming JSON parser, Zod registry, action bridge, and unified LLM providers (**OpenAI, Gemini, Anthropic, Ollama**). |
+| [`@intentui/vue`](./packages/vue) | `1.0.0` | Native Vue 3 bindings: `<IntentRenderer>`, `useIntentChat` (agentic loop), `useIntentUI` (canvas), `defineIntent()`, and `autoDiscoverComponents()`. |
+| [`@intentui/nuxt`](./packages/nuxt) | `1.0.0` | Official Nuxt 3 module with zero-config auto-imports and secure Nitro server streaming handler (`/api/intent-chat`). |
+| [`@intentui/ui-kit`](./packages/ui-kit) | `1.0.0` | Headless & styled Generative UI components: `MetricCard`, `DataTable`, `FormWizard`, and `ConfirmationCard`. |
 
 ---
 

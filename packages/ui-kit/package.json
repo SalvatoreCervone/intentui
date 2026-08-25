@@ -1,6 +1,6 @@
 {
   "name": "@intentui/ui-kit",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Ready-to-use, accessible, and beautifully styled Generative UI components for IntentUI",
   "type": "module",
   "main": "./dist/index.cjs",

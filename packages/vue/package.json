@@ -1,6 +1,6 @@
 {
   "name": "@intentui/vue",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Vue 3 & Nuxt bindings for IntentUI — intent-driven generative UI components",
   "type": "module",
   "main": "./dist/index.cjs",

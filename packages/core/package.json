@@ -1,6 +1,6 @@
 {
   "name": "@intentui/core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Framework-agnostic core engine for IntentUI — streaming parser, component registry, and action bridge",
   "type": "module",
   "main": "./dist/index.cjs",

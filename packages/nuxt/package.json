@@ -1,6 +1,6 @@
 {
   "name": "@intentui/nuxt",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Official Nuxt 3 module for IntentUI — Generative UI with zero-config auto-imports and secure server streaming",
   "type": "module",
   "main": "./dist/index.cjs",
