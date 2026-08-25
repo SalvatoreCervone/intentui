@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       '@intentui-vue/core': path.resolve(__dirname, '../core/src'),
       '@intentui-vue/vue': path.resolve(__dirname, '../vue/src'),
+      '@intentui-vue/ui-kit': path.resolve(__dirname, '../ui-kit/src'),
     },
   },
   test: {

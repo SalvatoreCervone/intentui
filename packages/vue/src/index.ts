@@ -10,6 +10,21 @@ export type { AutoDiscoverOptions } from './discovery';
 export { defineIntent } from '@intentui-vue/core';
 export type { IntentDefinition } from '@intentui-vue/core';
 
+// UI-Kit Component Suite & Pre-configured Registry
+export {
+  intentUIComponents,
+  MetricCard,
+  metricCardIntent,
+  DataTable,
+  dataTableIntent,
+  FormWizard,
+  formWizardIntent,
+  ConfirmationCard,
+  confirmationCardIntent,
+  ActionStagingCard,
+  actionStagingCardIntent,
+} from '@intentui-vue/ui-kit';
+
 // Components
 export { IntentRenderer, default as IntentRendererDefault } from './IntentRenderer';
 export type { ProcessedChunk } from './IntentRenderer';
